@@ -9,18 +9,18 @@
         />
 
         <div class="mt-14 space-y-8">
-            @foreach (config('portfolio.spotlight') as $project)
+            @foreach ($spotlight as $project)
                 <x-spotlight-card
-                    :name="$project['name']"
-                    :host="$project['host']"
-                    :tagline="$project['tagline']"
-                    :problem="$project['problem']"
-                    :solution="$project['solution']"
-                    :points="$project['points']"
-                    :stack="$project['stack']"
-                    :repo="$project['repo'] ?? null"
-                    :flow="$project['flow'] ?? null"
-                    :media-first="$project['media_first'] ?? false"
+                    :name="$project->name"
+                    :host="$project->host"
+                    :tagline="$project->tagline"
+                    :problem="$project->problem"
+                    :solution="$project->solution"
+                    :points="$project->points ?? []"
+                    :stack="$project->tech ?? []"
+                    :repo="$project->repo"
+                    :flow="$project->flow"
+                    :media-first="$project->media_first"
                 />
             @endforeach
         </div>

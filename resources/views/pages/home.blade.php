@@ -5,5 +5,6 @@
     @include('partials.spotlight')
     @include('partials.work')
     @include('partials.practice')
+    @include('partials.track-record')
     @include('partials.contact')
 @endsection

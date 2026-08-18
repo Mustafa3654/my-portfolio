@@ -1,5 +1,5 @@
 @php
-    $projects   = collect(config('portfolio.projects'));
+    // $projects comes from HomeController.
     $categories = config('portfolio.categories');
 
     // Counts come from the data, so a new project in config updates the chips too.
@@ -33,14 +33,14 @@
         <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($projects as $project)
                 <x-project-card
-                    :category="$project['category']"
-                    :kind="$project['kind']"
-                    :name="$project['name']"
-                    :summary="$project['summary']"
-                    :stack="$project['stack']"
-                    :status="$project['status']"
-                    :host="$project['host']"
-                    :repo="$project['repo']"
+                    :category="$project->category"
+                    :kind="$project->kind"
+                    :name="$project->name"
+                    :summary="$project->summary"
+                    :stack="$project->stack"
+                    :status="$project->status"
+                    :host="$project->host"
+                    :repo="$project->repo"
                 />
             @endforeach
         </div>

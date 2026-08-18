@@ -1,9 +1,8 @@
 @php
     $me    = config('portfolio.identity');
     $hero  = config('portfolio.hero');
-    $board = collect(config('portfolio.board'));
-
-    $liveCount = $board->where('status', 'live')->count();
+    // $board comes from HomeController (Project::onBoard()).
+    $liveCount = $board->whereIn('status', ['live', 'in-use'])->count();
     $betaCount = $board->whereIn('status', ['beta', 'wip'])->count();
 @endphp
 
@@ -71,9 +70,9 @@
                 <ul>
                     @foreach ($board as $row)
                         <x-board-row
-                            :host="$row['host']"
-                            :summary="$row['summary']"
-                            :status="$row['status']"
+                            :host="$row->host"
+                            :summary="$row->board_summary ?? $row->summary"
+                            :status="$row->status"
                             :last="$loop->last"
                         />
                     @endforeach

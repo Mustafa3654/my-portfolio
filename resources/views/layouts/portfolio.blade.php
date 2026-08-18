@@ -8,9 +8,11 @@
     <title>@yield('title', $me['name'] . ' — ' . $me['role'])</title>
     <meta name="description" content="@yield('description', 'Full-stack systems and web engineer. Multi-vendor delivery dispatch, bilingual storefronts, QR menus and the admin panels that keep them honest — shipped and running in the Lebanese market.')">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    {{-- Fonts are self-hosted via the Bunny helper in vite.config.js, so the page
+         makes no third-party request at runtime. Vite::fonts() emits the preload
+         links and the @font-face rules; without it the display face silently
+         falls back to the system stack. --}}
+    {{ Vite::fonts() }}
 
     @vite(['resources/css/app.css', 'resources/js/portfolio.js'])
 

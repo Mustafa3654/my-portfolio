@@ -13,7 +13,7 @@
         </a>
 
         <nav aria-label="Sections" class="hidden items-center gap-8 md:flex">
-            @foreach (['spotlight' => 'Spotlight', 'work' => 'Work', 'practice' => 'Practice', 'contact' => 'Contact'] as $anchor => $label)
+            @foreach (['spotlight' => 'Spotlight', 'work' => 'Work', 'practice' => 'Practice', 'track-record' => 'Track record', 'contact' => 'Contact'] as $anchor => $label)
                 <a href="#{{ $anchor }}"
                    class="font-mono text-[11px] uppercase tracking-[0.16em] text-mute transition-colors hover:text-paper">{{ $label }}</a>
             @endforeach

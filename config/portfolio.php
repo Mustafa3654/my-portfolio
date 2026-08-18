@@ -24,7 +24,8 @@ return [
         'phone_tel' => '+96170535819',
         'github'    => 'https://github.com/Mustafa3654',
         'linkedin'  => 'https://www.linkedin.com/in/moustafa-abou-al-hajj-a55848279/',
-        'cv'        => null, // e.g. '/storage/cv/mustafa-abou-el-hajj.pdf'
+        'cv'        => '/documents/mustafa-abou-el-hajj-cv.pdf',
+        'employer'  => 'Computronics SARL',
         'available' => true,
     ],
 
@@ -39,7 +40,7 @@ return [
                        . 'honest — for the Lebanese market, where dual currency, Arabic RTL and a '
                        . 'WhatsApp-first customer are requirements, not edge cases.',
         'stats'       => [
-            ['label' => 'Shipped',    'value' => '10 systems'],
+            ['label' => 'Shipped',    'value' => '15 systems'],
             ['label' => 'Core stack', 'value' => 'Laravel'],
             ['label' => 'Languages',  'value' => 'EN / AR'],
         ],
@@ -177,7 +178,30 @@ return [
             'repo'        => null,
         ],
 
-        // ── Commerce & menus ──────────────────────────────────────────────
+        [
+            'category'    => 'apps',
+            'kind'        => 'Mobile app',
+            'name'        => 'Kalemni',
+            'summary'     => 'Cross-platform messaging app with OTP phone authentication, dynamic '
+                           . 'profiles and real-time text across five screens on a Firestore backend.',
+            'stack'       => 'Flutter · Firebase · Firestore',
+            'status'      => 'private',
+            'host'        => null,
+            'repo'        => null,
+        ],
+        [
+            'category'    => 'apps',
+            'kind'        => 'Web app',
+            'name'        => 'Dietitian practice platform',
+            'summary'     => 'Full-stack practice website for a dietitian - performance-focused, '
+                           . 'responsive, with content management the practitioner runs themselves.',
+            'stack'       => 'Laravel · MySQL · Blade',
+            'status'      => 'live',
+            'host'        => null,
+            'repo'        => null,
+        ],
+
+        // -- Commerce & menus ----------------------------------------------
         [
             'category'    => 'commerce',
             'kind'        => 'E-commerce',
@@ -249,10 +273,44 @@ return [
         [
             'category'    => 'tools',
             'kind'        => 'Internal tool',
-            'name'        => 'Hosting & deploy scripts',
-            'summary'     => 'Provisioning, subdomain routing, TLS and backups for every site on the '
-                           . 'board — written once at ComPutroniX, reused since.',
-            'stack'       => 'Bash · cPanel · Cron',
+            'name'        => 'POS automation scripts',
+            'summary'     => 'One-click update and backup protocols embedded directly into the AlphaSoft '
+                           . 'POS, cutting manual maintenance time by 70% and ending recurring data-loss '
+                           . 'incidents across hundreds of terminals.',
+            'stack'       => 'PowerShell · Bash · AlphaSoft',
+            'status'      => 'in-use',
+            'host'        => null,
+            'repo'        => null,
+        ],
+        [
+            'category'    => 'tools',
+            'kind'        => 'Integration',
+            'name'        => 'AlphaSoft POS integrations',
+            'summary'     => 'Direct API connections for JHScale (TM-xA) digital scales and secondary '
+                           . 'customer-facing display modules, deployed across hundreds of active terminals.',
+            'stack'       => 'C# · PowerShell · Hardware API',
+            'status'      => 'in-use',
+            'host'        => null,
+            'repo'        => null,
+        ],
+        [
+            'category'    => 'tools',
+            'kind'        => 'Internal tool',
+            'name'        => 'Support ticketing system',
+            'summary'     => 'A dedicated ticketing workflow that took average response time from 3-4 '
+                           . 'hours down to half an hour, handling around 40 tickets a month.',
+            'stack'       => 'PHP · MySQL',
+            'status'      => 'in-use',
+            'host'        => null,
+            'repo'        => null,
+        ],
+        [
+            'category'    => 'tools',
+            'kind'        => 'Infrastructure',
+            'name'        => 'Ubuntu server infrastructure',
+            'summary'     => 'Company-wide Linux server estate — SSH access, firewalls and hardening for '
+                           . 'staff and client accounts, held at 24/7 uptime.',
+            'stack'       => 'Ubuntu Server · SSH · UFW',
             'status'      => 'private',
             'host'        => null,
             'repo'        => null,
@@ -291,14 +349,75 @@ return [
         [
             'label' => 'Hosting',
             'title' => 'Deployment is part of the job',
-            'body'  => 'Subdomain routing, TLS, cron, backups and restores. Running IT and hosting at '
-                     . 'ComPutroniX means shipping doesn\'t stop at the merge.',
+            'body'  => 'Ubuntu Server infrastructure with SSH access and firewalls held at 24/7 '
+                     . 'uptime, plus subdomain routing, TLS, cron and restores. Running this at '
+                     . 'Computronics SARL means shipping doesn\'t stop at the merge.',
         ],
         [
             'label' => 'Thin connections',
             'title' => 'Fast on the network people have',
             'body'  => 'Server-rendered pages, small payloads and cached queries — because the customer '
                      . 'is on mobile data during a power cut, not on fibre.',
+        ],
+    ],
+
+    /*
+    | Experience, education and credentials. Time genuinely is a sequence here,
+    | so unlike the project grid these carry dates as the structural device.
+    */
+    'credentials' => [
+        'experience' => [
+            [
+                'role'   => 'IT Specialist - Systems & Development',
+                'org'    => 'Computronics SARL',
+                'place'  => 'Zahlé, Lebanon',
+                'from'   => 'Dec 2024',
+                'to'     => 'Present',
+                'points' => [
+                    'AlphaSoft POS integrations across hundreds of active terminals, including direct '
+                        . 'API connections for JHScale (TM-xA) scales and customer-facing displays',
+                    'Architected the internal Ubuntu Server estate - SSH, firewalls, 24/7 uptime',
+                    'Embedded one-click update and backup automation into the POS, cutting manual '
+                        . 'maintenance by 70% and ending recurring data loss',
+                    'Built the support ticketing system: average response time 3-4 hours to 0.5 hours',
+                    'PowerShell automation for client config edits, halving remote support time',
+                ],
+            ],
+            [
+                'role'   => 'IT Support Intern',
+                'org'    => 'Computronics SARL',
+                'place'  => 'Zahlé, Lebanon',
+                'from'   => 'Nov 2024',
+                'to'     => 'Dec 2024',
+                'points' => [
+                    'Supported AlphaSoft accounting rollouts through data migration, setup and training',
+                    'Remote technical support via AnyDesk',
+                ],
+            ],
+        ],
+
+        'education' => [
+            [
+                'award' => 'BSc Computer Science',
+                'org'   => 'Lebanese International University',
+                'from'  => '2021',
+                'to'    => '2024',
+            ],
+        ],
+
+        'certifications' => [
+            [
+                'award' => 'AI Training Hackathon',
+                'org'   => 'Kanz AI · LAU Academy of Continuing Education',
+                'date'  => 'July 2026',
+                'id'    => 'KANZ-ATT-9E9B85F4E2',
+                'file'  => '/documents/kanz-ai-certificate.pdf',
+            ],
+        ],
+
+        'languages' => [
+            ['name' => 'Arabic',  'level' => 'Native'],
+            ['name' => 'English', 'level' => 'Professional working'],
         ],
     ],
 
