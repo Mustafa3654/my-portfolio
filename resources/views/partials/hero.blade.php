@@ -21,7 +21,7 @@
             <span>{{ $me['available'] ? 'Open to work & contracts' : 'Currently booked' }}</span>
         </p>
 
-        <h1 class="t-hero mt-8 text-paper">
+        <h1 class="t-hero mt-7 text-paper">
             @foreach ($hero['headline'] as $i => $line)
                 <span class="line-mask">
                     <span @class(['accent-text [--accent:var(--color-brass)]' => $i === $hero['accent_line']])>{{ $line }}</span>
@@ -32,7 +32,7 @@
         <div class="mt-10 grid gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16">
 
             <div class="reveal">
-                <p class="max-w-xl text-[1.125rem] leading-[1.62] text-mute">{{ $hero['bio'] }}</p>
+                <p class="max-w-xl text-[1.0625rem] leading-[1.65] text-mute">{{ $hero['bio'] }}</p>
 
                 <div class="mt-9 flex flex-wrap items-center gap-3">
                     <a href="#spotlight"
@@ -55,7 +55,7 @@
                         @endphp
                         <div class="bg-surface px-4 py-5">
                             <dt class="t-eyebrow text-mute">{{ $stat['label'] }}</dt>
-                            <dd class="mt-2 font-display text-[1.6rem] font-extrabold leading-none tracking-[-0.03em] text-paper">
+                            <dd class="mt-2 font-display text-[1.35rem] font-extrabold leading-none tracking-[-0.025em] text-paper">
                                 @if ($m)
                                     <span data-count="{{ $m[1] }}" data-count-suffix="{{ $m[2] }}">{{ $stat['value'] }}</span>
                                 @else

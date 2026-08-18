@@ -90,21 +90,21 @@
   .t-hero {
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(2.9rem, 9.2vw, 8.5rem);
-    line-height: .86;
-    letter-spacing: -.045em;
+    font-size: clamp(2.2rem, 5.4vw, 4.5rem);
+    line-height: .95;
+    letter-spacing: -.035em;
   }
   .t-section {
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: clamp(2rem, 5.2vw, 3.9rem);
-    line-height: .96;
-    letter-spacing: -.035em;
+    font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+    line-height: 1.02;
+    letter-spacing: -.028em;
   }
   .t-card {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(1.25rem, 1.7vw, 1.5rem);
+    font-size: clamp(1.15rem, 1.4vw, 1.35rem);
     letter-spacing: -.02em;
   }
   .t-eyebrow {

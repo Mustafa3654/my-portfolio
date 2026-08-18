@@ -52,18 +52,18 @@
         @endif
 
         <div @class(['order-1 lg:order-2' => $mediaFirst, 'order-1' => ! $mediaFirst])>
-            <h3 class="font-display text-[clamp(2rem,3.6vw,3rem)] font-extrabold leading-[0.98] tracking-[-0.035em] text-paper">{{ $name }}</h3>
-            <p class="mt-2.5 text-[16px] text-mute">{{ $tagline }}</p>
+            <h3 class="font-display text-[clamp(1.55rem,2.3vw,2.05rem)] font-extrabold leading-[1.04] tracking-[-0.028em] text-paper">{{ $name }}</h3>
+            <p class="mt-2 text-[15px] text-mute">{{ $tagline }}</p>
 
             <div class="mt-7 space-y-6">
                 <div class="border-l-2 border-clay/70 pl-4">
                     <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-clay">Problem</p>
-                    <p class="mt-2.5 text-[15.5px] leading-[1.72] text-mute">{{ $problem }}</p>
+                    <p class="mt-2 text-[15px] leading-[1.7] text-mute">{{ $problem }}</p>
                 </div>
 
                 <div class="border-l-2 border-brass pl-4">
                     <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-brass">Solution</p>
-                    <p class="mt-2.5 text-[15.5px] leading-[1.72] text-mute">{{ $solution }}</p>
+                    <p class="mt-2 text-[15px] leading-[1.7] text-mute">{{ $solution }}</p>
                 </div>
             </div>
 

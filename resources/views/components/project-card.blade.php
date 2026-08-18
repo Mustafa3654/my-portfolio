@@ -39,13 +39,13 @@
 
     <h3 @class([
         'mt-5 font-display font-bold tracking-[-0.025em] text-paper',
-        'text-[2rem] leading-[1.02]' => $feature,
+        'text-[1.55rem] leading-[1.1]' => $feature,
         't-card' => ! $feature,
     ])>{{ $name }}</h3>
 
     <p @class([
         'mt-3 flex-1 text-mute',
-        'text-[15.5px] leading-[1.62] max-w-2xl' => $feature,
+        'text-[15px] leading-[1.62] max-w-2xl' => $feature,
         'text-[14.5px] leading-[1.62]' => ! $feature,
     ])>{{ $summary }}</p>
 
