@@ -4,13 +4,13 @@
 @endphp
 
 <section id="contact">
-    <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+    <div class="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-36">
         <div class="reveal grid gap-12 lg:grid-cols-[1fr_auto] lg:items-end">
 
             <div class="max-w-2xl">
                 <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-brass">Contact</p>
 
-                <h2 class="mt-4 font-display text-[2.2rem] font-extrabold leading-[1.02] tracking-[-0.03em] text-paper sm:text-[3.1rem]">
+                <h2 class="t-section mt-5 text-paper">
                     {{ $contact['heading'][0] }}<br class="hidden sm:block"> {{ $contact['heading'][1] }}
                 </h2>
 

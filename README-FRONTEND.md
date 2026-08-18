@@ -14,13 +14,18 @@ the page borrows that vernacular rather than the usual developer-portfolio trope
 
 | Axis | Choice |
 | --- | --- |
-| Ground | `#101318` deep slate. Never `#000`, so hairlines stay readable |
-| Surfaces | `#171b21` card, `#1e242c` raised, `#2a313b` hairline |
-| Accent | `#e3a44b` brass — warm against cool slate, no neon, no glow |
-| Reserved | `#62b39c` signal-teal = *running*; `#c98a6b` clay = *problem / beta* |
-| Display | Bricolage Grotesque, used with restraint |
+| Ground | `#0C0F14` deep slate. Never `#000`, so hairlines stay readable |
+| Surfaces | `#151A22` card, `#1C222C` raised, `#262E3A` hairline |
+| Accent | `#F0B054` brass — the primary call to action |
+| Category hues | apps `#4FB8C9` cyan · commerce `#F0B054` brass · tools `#9B8CF0` violet |
+| Reserved | `#5FC98A` signal = *running*; `#DD8F66` clay = *problem / beta* |
+| Display | Bricolage Grotesque, fluid to 8.5rem in the hero |
 | Body | Instrument Sans |
 | Utility | IBM Plex Mono for hostnames, labels and data |
+
+Colour is **functional**, not decorative: a card's hue tells you its category
+before you read the label. Depth comes from broad low-alpha tonal fields
+(`.ambient`) and per-card gradients — never a bloom around an element.
 
 **Signature element** — the *deployment board* in the hero: a hairline ops table
 listing every live subdomain, what it serves, and a status dot. It states the

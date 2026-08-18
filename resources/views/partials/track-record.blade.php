@@ -4,7 +4,7 @@
 @endphp
 
 <section id="track-record" class="border-b border-line">
-    <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
 
         <x-section-heading
             class="reveal max-w-2xl"

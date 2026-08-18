@@ -17,7 +17,8 @@
     @vite(['resources/css/app.css', 'resources/js/portfolio.js'])
 
     {{-- Nothing may stay stuck at opacity 0 when JavaScript is unavailable. --}}
-    <noscript><style>.reveal,.board-row{opacity:1!important;transform:none!important}</style></noscript>
+    <noscript><style>.reveal,.board-row{opacity:1!important;transform:none!important}
+.line-mask>span{transform:none!important}</style></noscript>
 </head>
 <body id="top" class="font-sans antialiased">
 

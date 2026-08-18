@@ -3,24 +3,26 @@
 /*
 | Design tokens
 |
-| Sophisticated dark neutrals with a single warm accent. Deliberately no pure
-| black (#000) — the ground is a deep slate that keeps hairlines readable.
-|
-|   brass   accent / calls to action / active state
-|   signal  desaturated teal, reserved for "this is live" and nothing else
-|   clay    muted terracotta, reserved for "problem" and "beta / WIP"
+| Deep slate ground with a jewel-toned accent set. Colour is functional: each
+| project category owns a hue, status owns another, so the palette encodes
+| information rather than decorating. Still no pure black and no neon glow —
+| the accents are saturated but tonally dark enough to sit on slate.
 */
 @theme {
-  --color-ink:      #101318;
-  --color-surface:  #171b21;
-  --color-raise:    #1e242c;
-  --color-line:     #2a313b;
-  --color-linehi:   #3d4650;
-  --color-mute:     #8b94a1;
-  --color-paper:    #e7eaee;
-  --color-brass:    #e3a44b;
-  --color-signal:   #62b39c;
-  --color-clay:     #c98a6b;
+  --color-ink:      #0c0f14;
+  --color-ink2:     #0f131a;
+  --color-surface:  #151a22;
+  --color-raise:    #1c222c;
+  --color-line:     #262e3a;
+  --color-linehi:   #3a4553;
+  --color-mute:     #8e98a6;
+  --color-paper:    #eceff3;
+
+  --color-brass:    #f0b054;
+  --color-cyan:     #4fb8c9;
+  --color-violet:   #9b8cf0;
+  --color-signal:   #5fc98a;
+  --color-clay:     #dd8f66;
 
   --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
   --font-sans:    "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
@@ -33,12 +35,10 @@
     color: var(--color-paper);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
-  ::selection {
-    background: var(--color-brass);
-    color: var(--color-ink);
-  }
+  ::selection { background: var(--color-brass); color: var(--color-ink); }
 
   :focus-visible {
     outline: 2px solid var(--color-brass);
@@ -48,61 +48,178 @@
 }
 
 @layer components {
-  /* Drafting grid — structure made visible behind the hero, masked to a fade.
-     Not a glow: it is a flat 1px rule grid at very low opacity. */
-  .drafting {
-    background-image:
-      linear-gradient(to right, rgba(255, 255, 255, .035) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, .035) 1px, transparent 1px);
-    background-size: 68px 68px;
-    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 20%, transparent 78%);
-            mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 20%, transparent 78%);
-  }
 
-  /* Registration ticks — corner marks borrowed from print sheets. Revealed on
-     hover or keyboard focus so the card reads as a physical spec sheet. */
-  .ticked::before,
-  .ticked::after {
+  /* ── Category hues ────────────────────────────────────────────────────
+     Each card sets --accent once; every accented part inherits from it. */
+  .cat-apps     { --accent: var(--color-cyan); }
+  .cat-commerce { --accent: var(--color-brass); }
+  .cat-tools    { --accent: var(--color-violet); }
+  .accent-text  { color: var(--accent, var(--color-brass)); }
+  .accent-bd    { border-color: var(--accent, var(--color-brass)); }
+  .accent-bg    { background-color: var(--accent, var(--color-brass)); }
+
+  /* ── Ambient field ───────────────────────────────────────────────────
+     A broad tonal wash, not a glow around any element. Two low-alpha
+     radials give the ground depth so large dark areas stop reading flat. */
+  .ambient::before {
     content: "";
     position: absolute;
-    width: 11px;
-    height: 11px;
+    inset: -20% -10% auto -10%;
+    height: 130%;
+    background:
+      radial-gradient(48rem 30rem at 18% 0%,  color-mix(in oklab, var(--color-brass) 13%, transparent), transparent 65%),
+      radial-gradient(42rem 28rem at 82% 12%, color-mix(in oklab, var(--color-violet) 11%, transparent), transparent 62%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Drafting grid — structure made visible, parallaxed on scroll */
+  .drafting {
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 72px 72px;
+    -webkit-mask-image: radial-gradient(ellipse 95% 75% at 50% 0%, #000 15%, transparent 80%);
+            mask-image: radial-gradient(ellipse 95% 75% at 50% 0%, #000 15%, transparent 80%);
+    will-change: transform;
+  }
+
+  /* ── Type ────────────────────────────────────────────────────────────
+     Fluid and much larger than before. The hero is the loudest thing on
+     the page and everything else steps down sharply from it. */
+  .t-hero {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.9rem, 9.2vw, 8.5rem);
+    line-height: .86;
+    letter-spacing: -.045em;
+  }
+  .t-section {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2rem, 5.2vw, 3.9rem);
+    line-height: .96;
+    letter-spacing: -.035em;
+  }
+  .t-card {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.25rem, 1.7vw, 1.5rem);
+    letter-spacing: -.02em;
+  }
+  .t-eyebrow {
+    font-family: var(--font-mono);
+    font-size: .6875rem;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+  }
+
+  /* ── Hero headline: per-line mask reveal ─────────────────────────────
+     Each line sits in an overflow-hidden box and slides up into place. */
+  .line-mask {
+    display: block;
+    overflow: hidden;
+    /* Room for descenders, reclaimed so the rhythm is unchanged. Without this
+       the mask crops the tail of any 'y' or 'g' in the headline. */
+    padding-bottom: .1em;
+    margin-bottom: -.1em;
+  }
+  .line-mask > span {
+    display: block;
+    transform: translateY(105%);
+    transition: transform 1.05s cubic-bezier(.16, 1, .3, 1);
+  }
+  .line-in > span { transform: translateY(0); }
+
+  /* ── Cards ───────────────────────────────────────────────────────────
+     Depth comes from a tinted gradient plus a border that picks up the
+     category hue on hover. The pointer-tracked highlight is a soft wash
+     inside the card, deliberately not a bloom around it. */
+  .card {
+    position: relative;
+    isolation: isolate;
+    background:
+      linear-gradient(168deg,
+        color-mix(in oklab, var(--accent, var(--color-brass)) 7%, var(--color-surface)) 0%,
+        var(--color-surface) 46%);
+    border: 1px solid var(--color-line);
+    transition: transform .45s cubic-bezier(.2,.7,.2,1),
+                border-color .35s ease,
+                box-shadow .45s ease;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
     opacity: 0;
-    transition: opacity .28s ease;
+    transition: opacity .4s ease;
+    background: radial-gradient(
+      16rem 16rem at var(--mx, 50%) var(--my, 0%),
+      color-mix(in oklab, var(--accent, var(--color-brass)) 16%, transparent),
+      transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .card:hover, .card:focus-within {
+    transform: translateY(-5px);
+    border-color: color-mix(in oklab, var(--accent, var(--color-brass)) 45%, var(--color-line));
+    box-shadow: 0 22px 48px -28px rgba(0,0,0,.9);
+  }
+  .card:hover::before, .card:focus-within::before { opacity: 1; }
+
+  /* Top hairline that fills with the category hue on hover */
+  .card-rule {
+    position: absolute;
+    inset: -1px auto auto -1px;
+    height: 2px;
+    width: 0;
+    background: var(--accent, var(--color-brass));
+    transition: width .5s cubic-bezier(.2,.7,.2,1);
+  }
+  .card:hover .card-rule, .card:focus-within .card-rule { width: calc(100% + 2px); }
+
+  /* Registration ticks on the spotlight tickets */
+  .ticked::before, .ticked::after {
+    content: "";
+    position: absolute;
+    width: 13px; height: 13px;
+    opacity: 0;
+    transition: opacity .3s ease;
     pointer-events: none;
   }
   .ticked::before {
-    top: -1px;
-    left: -1px;
+    top: -1px; left: -1px;
     border-top: 1px solid var(--color-brass);
     border-left: 1px solid var(--color-brass);
   }
   .ticked::after {
-    bottom: -1px;
-    right: -1px;
+    bottom: -1px; right: -1px;
     border-bottom: 1px solid var(--color-brass);
     border-right: 1px solid var(--color-brass);
   }
-  .ticked:hover::before,
-  .ticked:hover::after,
-  .ticked:focus-within::before,
-  .ticked:focus-within::after { opacity: 1; }
+  .ticked:hover::before, .ticked:hover::after,
+  .ticked:focus-within::before, .ticked:focus-within::after { opacity: 1; }
 
-  /* Scroll reveal */
-  .reveal { opacity: 0; transform: translateY(16px); }
+  /* ── Reveals ─────────────────────────────────────────────────────────*/
+  .reveal { opacity: 0; transform: translateY(26px); }
   .reveal.in {
-    opacity: 1;
-    transform: none;
-    transition: opacity .7s cubic-bezier(.2, .7, .2, 1),
-                transform .7s cubic-bezier(.2, .7, .2, 1);
+    opacity: 1; transform: none;
+    transition: opacity .8s cubic-bezier(.2,.7,.2,1),
+                transform .8s cubic-bezier(.2,.7,.2,1);
+  }
+  /* Stagger children by index, set inline as --i */
+  .reveal.in > * { animation: riseIn .7s cubic-bezier(.2,.7,.2,1) backwards; }
+
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
   }
 
-  /* Deployment board rows — one orchestrated stagger on load */
-  .board-row { opacity: 0; transform: translateY(9px); }
+  .board-row { opacity: 0; transform: translateX(-12px); }
   .board-row.in {
-    opacity: 1;
-    transform: none;
-    transition: opacity .5s ease, transform .5s cubic-bezier(.2, .7, .2, 1);
+    opacity: 1; transform: none;
+    transition: opacity .55s ease, transform .55s cubic-bezier(.2,.7,.2,1);
   }
 
   /* Availability beacon */
@@ -110,32 +227,51 @@
   .beacon::after {
     content: "";
     position: absolute;
-    inset: -4px;
+    inset: -5px;
     border-radius: 9999px;
     border: 1px solid currentColor;
-    opacity: .45;
-    animation: beaconpulse 2.6s cubic-bezier(0, 0, .2, 1) infinite;
+    opacity: .5;
+    animation: beaconpulse 2.6s cubic-bezier(0,0,.2,1) infinite;
   }
   @keyframes beaconpulse {
-    0%        { transform: scale(.6);  opacity: .5; }
-    70%, 100% { transform: scale(1.5); opacity: 0; }
+    0%        { transform: scale(.55); opacity: .55; }
+    70%, 100% { transform: scale(1.6);  opacity: 0; }
+  }
+
+  /* Board sweep — a slow scanline confirming the board is "live" */
+  .sweep { position: relative; overflow: hidden; }
+  .sweep::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 -40%;
+    width: 40%;
+    background: linear-gradient(90deg, transparent,
+      color-mix(in oklab, var(--color-signal) 9%, transparent), transparent);
+    animation: sweep 7s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes sweep {
+    0%, 62% { transform: translateX(0); }
+    100%    { transform: translateX(350%); }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 
-  .reveal,
-  .board-row {
+  .reveal, .board-row {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
   }
-
-  .beacon::after { animation: none; opacity: 0; }
+  .reveal.in > * { animation: none !important; }
+  .line-mask > span { transform: none !important; transition: none !important; }
+  .beacon::after, .sweep::after { animation: none; opacity: 0; }
+  .card:hover, .card:focus-within { transform: none; }
 
   *, *::before, *::after {
     transition-duration: .01ms !important;
     animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

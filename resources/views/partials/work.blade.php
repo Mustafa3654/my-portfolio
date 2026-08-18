@@ -2,18 +2,22 @@
     // $projects comes from HomeController.
     $categories = config('portfolio.categories');
 
-    // Counts come from the data, so a new project in config updates the chips too.
+    // Counts come from the data, so a new project updates the chips too.
     $counts = collect($categories)->map(fn ($label, $key) =>
         $key === 'all' ? $projects->count() : $projects->where('category', $key)->count()
     );
+
+    // The first project of each category runs double-width, so the grid has a
+    // rhythm instead of fifteen identical tiles.
+    $featured = $projects->groupBy('category')->map->first()->pluck('id')->all();
 @endphp
 
-<section id="work" class="border-b border-line">
-    <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
+<section id="work" class="relative border-b border-line">
+    <div class="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-32">
 
-        <div class="reveal flex flex-col gap-7 border-b border-line pb-7 md:flex-row md:items-end md:justify-between">
+        <div class="flex flex-col gap-8 border-b border-line pb-8 md:flex-row md:items-end md:justify-between">
             <x-section-heading
-                class="max-w-xl"
+                class="reveal max-w-xl"
                 eyebrow="All work"
                 title="Everything else that's running."
             />
@@ -23,14 +27,14 @@
                     <button type="button"
                             data-filter="{{ $key }}"
                             aria-pressed="{{ $key === 'all' ? 'true' : 'false' }}"
-                            class="rounded-[5px] border border-line bg-surface px-3.5 py-2 font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper aria-pressed:border-brass aria-pressed:bg-brass aria-pressed:text-ink">
+                            class="rounded-[6px] border border-line bg-surface px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-all duration-300 hover:-translate-y-0.5 hover:border-linehi hover:text-paper aria-pressed:border-brass aria-pressed:bg-brass aria-pressed:text-ink">
                         {{ $label }} <span class="opacity-60">{{ $counts[$key] }}</span>
                     </button>
                 @endforeach
             </div>
         </div>
 
-        <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($projects as $project)
                 <x-project-card
                     :category="$project->category"
@@ -41,6 +45,7 @@
                     :status="$project->status"
                     :host="$project->host"
                     :repo="$project->repo"
+                    :feature="in_array($project->id, $featured, true)"
                 />
             @endforeach
         </div>
