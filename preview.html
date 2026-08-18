@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mustafa Abou El-Hajj — Full-Stack Systems &amp; Web Engineer</title>
+<meta name="description" content="Full-stack systems and web engineer. Multi-vendor delivery dispatch, bilingual storefronts, QR menus and the admin panels that keep them honest — shipped and running in the Lebanese market.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @theme {
+    --color-ink:      #101318;
+    --color-surface:  #171b21;
+    --color-raise:    #1e242c;
+    --color-line:     #2a313b;
+    --color-linehi:   #3d4650;
+    --color-mute:     #8b94a1;
+    --color-paper:    #e7eaee;
+    --color-brass:    #e3a44b;
+    --color-signal:   #62b39c;
+    --color-clay:     #c98a6b;
+
+    --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+    --font-sans:    "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
+  }
+</style>
+<style>
+  body { background:#101318; color:#e7eaee; font-family:"Instrument Sans",system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  ::selection { background:#e3a44b; color:#101318; }
+
+  /* Drafting grid — structure made visible, not a glow */
+  .drafting {
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 68px 68px;
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 20%, transparent 78%);
+            mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 20%, transparent 78%);
+  }
+
+  /* Registration ticks — corner marks, revealed on hover */
+  .ticked::before, .ticked::after {
+    content:""; position:absolute; width:11px; height:11px; opacity:0;
+    transition:opacity .28s ease; pointer-events:none;
+  }
+  .ticked::before { top:-1px; left:-1px; border-top:1px solid #e3a44b; border-left:1px solid #e3a44b; }
+  .ticked::after  { bottom:-1px; right:-1px; border-bottom:1px solid #e3a44b; border-right:1px solid #e3a44b; }
+  .ticked:hover::before, .ticked:hover::after,
+  .ticked:focus-within::before, .ticked:focus-within::after { opacity:1; }
+
+  .reveal { opacity:0; transform:translateY(16px); }
+  .reveal.in { opacity:1; transform:none; transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+
+  .board-row { opacity:0; transform:translateY(9px); }
+  .board-row.in { opacity:1; transform:none; transition:opacity .5s ease, transform .5s cubic-bezier(.2,.7,.2,1); }
+
+  .beacon { position:relative; }
+  .beacon::after {
+    content:""; position:absolute; inset:-4px; border-radius:9999px;
+    border:1px solid currentColor; opacity:.45; animation:beaconpulse 2.6s cubic-bezier(0,0,.2,1) infinite;
+  }
+  @keyframes beaconpulse { 0%{transform:scale(.6);opacity:.5} 70%,100%{transform:scale(1.5);opacity:0} }
+
+  :focus-visible { outline:2px solid #e3a44b; outline-offset:3px; border-radius:3px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior:auto; }
+    .reveal, .board-row { opacity:1 !important; transform:none !important; transition:none !important; }
+    .beacon::after { animation:none; opacity:0; }
+    *, *::before, *::after { transition-duration:.01ms !important; animation-duration:.01ms !important; }
+  }
+</style>
+<noscript><style>.reveal,.board-row{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body id="top" class="font-sans antialiased">
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════ -->
+<header class="sticky top-0 z-50 border-b border-line/90 bg-ink/85 backdrop-blur-md">
+  <div class="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 sm:px-8">
+    <a href="#top" class="group flex items-center gap-2.5">
+      <span class="grid h-7 w-7 place-items-center rounded-[5px] border border-line bg-surface font-display text-[13px] font-extrabold text-brass">M</span>
+      <span class="font-mono text-[11px] uppercase tracking-[0.19em] text-mute transition-colors group-hover:text-paper">abou&nbsp;el-hajj</span>
+    </a>
+
+    <nav aria-label="Sections" class="hidden items-center gap-8 md:flex">
+      <a href="#spotlight" class="font-mono text-[11px] uppercase tracking-[0.16em] text-mute transition-colors hover:text-paper">Spotlight</a>
+      <a href="#work"      class="font-mono text-[11px] uppercase tracking-[0.16em] text-mute transition-colors hover:text-paper">Work</a>
+      <a href="#practice"  class="font-mono text-[11px] uppercase tracking-[0.16em] text-mute transition-colors hover:text-paper">Practice</a>
+      <a href="#contact"   class="font-mono text-[11px] uppercase tracking-[0.16em] text-mute transition-colors hover:text-paper">Contact</a>
+    </nav>
+
+    <a href="#contact" class="rounded-[5px] border border-brass/45 bg-brass/10 px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-brass transition-colors hover:bg-brass hover:text-ink">
+      Start a project
+    </a>
+  </div>
+</header>
+
+<main>
+
+<!-- ══ HERO ═════════════════════════════════════════════════════════ -->
+<section class="relative overflow-hidden border-b border-line">
+  <div class="drafting pointer-events-none absolute inset-0"></div>
+
+  <div class="relative mx-auto grid max-w-6xl gap-14 px-5 pt-16 pb-20 sm:px-8 sm:pt-24 sm:pb-28 lg:grid-cols-[1.04fr_0.96fr] lg:gap-16">
+
+    <!-- Statement -->
+    <div class="reveal">
+      <p class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[11px] uppercase tracking-[0.2em] text-mute">
+        <span class="beacon inline-block h-1.5 w-1.5 rounded-full bg-signal text-signal"></span>
+        <span>Zahl&eacute;, Lebanon</span>
+        <span class="text-line">/</span>
+        <span>Open to work &amp; contracts</span>
+      </p>
+
+      <h1 class="mt-7 font-display text-[2.7rem] font-extrabold leading-[0.94] tracking-[-0.032em] text-paper sm:text-[3.6rem] lg:text-[4.15rem]">
+        I build the systems<br>
+        businesses actually<br>
+        <span class="text-brass">run on.</span>
+      </h1>
+
+      <p class="mt-7 max-w-xl text-[1.0625rem] leading-[1.68] text-mute">
+        Full-stack systems &amp; web engineer. I ship multi-vendor delivery dispatch, bilingual
+        storefronts, QR menus, and the admin panels that keep all of it honest — for the Lebanese
+        market, where dual currency, Arabic RTL and a WhatsApp-first customer are requirements,
+        not edge cases.
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-3">
+        <a href="#spotlight" class="rounded-[6px] bg-brass px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-brass/85">
+          See how they work
+        </a>
+        <a href="#contact" class="rounded-[6px] border border-line bg-surface px-5 py-2.5 text-sm font-semibold text-paper transition-colors hover:border-linehi hover:bg-raise">
+          Get in touch
+        </a>
+      </div>
+
+      <dl class="mt-11 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-[6px] border border-line bg-line">
+        <div class="bg-surface px-4 py-3.5">
+          <dt class="font-mono text-[10px] uppercase tracking-[0.16em] text-mute">Shipped</dt>
+          <dd class="mt-1 font-display text-xl font-bold text-paper">10 systems</dd>
+        </div>
+        <div class="bg-surface px-4 py-3.5">
+          <dt class="font-mono text-[10px] uppercase tracking-[0.16em] text-mute">Core stack</dt>
+          <dd class="mt-1 font-display text-xl font-bold text-paper">Laravel</dd>
+        </div>
+        <div class="bg-surface px-4 py-3.5">
+          <dt class="font-mono text-[10px] uppercase tracking-[0.16em] text-mute">Languages</dt>
+          <dd class="mt-1 font-display text-xl font-bold text-paper">EN / AR</dd>
+        </div>
+      </dl>
+    </div>
+
+    <!-- ── SIGNATURE: Deployment board ── -->
+    <div class="reveal lg:pt-3">
+      <div class="overflow-hidden rounded-[8px] border border-line bg-surface shadow-[0_18px_50px_-24px_rgba(0,0,0,.85)]">
+        <div class="flex items-center justify-between border-b border-line bg-raise/60 px-4 py-2.5">
+          <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-mute">Deployment board</span>
+          <span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-signal">
+            <span class="h-1.5 w-1.5 rounded-full bg-signal"></span>5 live / 1 beta
+          </span>
+        </div>
+
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] border-b border-line px-4 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-mute/70">
+          <span>Host</span><span>Status</span>
+        </div>
+
+        <ul>
+          <li class="board-row">
+            <a href="https://wassili.mustafa.dev" class="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-line px-4 py-3.5 transition-colors hover:bg-raise">
+              <span class="min-w-0">
+                <span class="block truncate font-mono text-[13px] text-paper transition-colors group-hover:text-brass">wassili<span class="text-mute">.mustafa.dev</span></span>
+                <span class="mt-0.5 block truncate text-[13px] text-mute">Multi-vendor delivery &amp; dispatch</span>
+              </span>
+              <span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-signal"><span class="h-1.5 w-1.5 rounded-full bg-signal"></span>Live</span>
+            </a>
+          </li>
+          <li class="board-row">
+            <a href="https://sortifya.mustafa.dev" class="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-line px-4 py-3.5 transition-colors hover:bg-raise">
+              <span class="min-w-0">
+                <span class="block truncate font-mono text-[13px] text-paper transition-colors group-hover:text-brass">sortifya<span class="text-mute">.mustafa.dev</span></span>
+                <span class="mt-0.5 block truncate text-[13px] text-mute">Crowdsourced micro-task platform</span>
+              </span>
+              <span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-signal"><span class="h-1.5 w-1.5 rounded-full bg-signal"></span>Live</span>
+            </a>
+          </li>
+          <li class="board-row">
+            <a href="https://amanelle.mustafa.dev" class="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-line px-4 py-3.5 transition-colors hover:bg-raise">
+              <span class="min-w-0">
+                <span class="block truncate font-mono text-[13px] text-paper transition-colors group-hover:text-brass">amanelle<span class="text-mute">.mustafa.dev</span></span>
+                <span class="mt-0.5 block truncate text-[13px] text-mute">Bilingual cosmetics storefront</span>
+              </span>
+              <span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-signal"><span class="h-1.5 w-1.5 rounded-full bg-signal"></span>Live</span>
+            </a>
+          </li>
+          <li class="board-row">
+            <a href="https://menu.mustafa.dev" class="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-line px-4 py-3.5 transition-colors hover:bg-raise">
+              <span class="min-w-0">
+                <span class="block truncate font-mono text-[13px] text-paper transition-colors group-hover:text-brass">menu<span class="text-mute">.mustafa.dev</span></span>
+                <span class="mt-0.5 block truncate text-[13px] text-mute">QR menus for restaurants</span>
+              </span>
+              <span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-signal"><span class="h-1.5 w-1.5 rounded-full bg-signal"></span>Live</span>
+            </a>
+          </li>
+          <li class="board-row">
+            <a href="https://nabil.mustafa.dev" class="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-line px-4 py-3.5 transition-colors hover:bg-raise">
+              <span class="min-w-0">
+                <span class="block truncate font-mono text-[13px] text-paper transition-colors group-hover:text-brass">nabil<span class="text-mute">.mustafa.dev</span></span>
+                <span class="mt-0.5 block truncate text-[13px] text-mute">Restaurant ordering + Telegram admin</span>
+              </span>
+              <span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-signal"><span class="h-1.5 w-1.5 rounded-full bg-signal"></span>Live</span>
+            </a>
+          </li>
+          <li class="board-row">
+            <a href="https://recipes.mustafa.dev" class="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3.5 transition-colors hover:bg-raise">
+              <span class="min-w-0">
+                <span class="block truncate font-mono text-[13px] text-paper transition-colors group-hover:text-brass">recipes<span class="text-mute">.mustafa.dev</span></span>
+                <span class="mt-0.5 block truncate text-[13px] text-mute">Lebanese home-cooking archive</span>
+              </span>
+              <span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-clay"><span class="h-1.5 w-1.5 rounded-full border border-clay"></span>Beta</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <p class="mt-3 px-1 font-mono text-[10px] leading-relaxed tracking-[0.1em] text-mute/70">
+        Every project runs on its own subdomain. Click a host to open it.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SPOTLIGHT ════════════════════════════════════════════════════ -->
+<section id="spotlight" class="border-b border-line">
+  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
+
+    <div class="reveal max-w-2xl">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-brass">Spotlight</p>
+      <h2 class="mt-4 font-display text-[2rem] font-bold leading-[1.05] tracking-[-0.025em] text-paper sm:text-[2.6rem]">
+        Two systems, and the problems that shaped them.
+      </h2>
+      <p class="mt-4 text-[1.0625rem] leading-[1.65] text-mute">
+        Both started as somebody's daily workaround — a WhatsApp thread, a folder of scanned PDFs.
+        The engineering was in replacing the workaround without asking anyone to change how they work.
+      </p>
+    </div>
+
+    <!-- ── Wassili ── -->
+    <article class="ticked reveal relative mt-14 rounded-[10px] border border-line bg-surface transition-colors hover:border-linehi">
+      <header class="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-raise/50 px-5 py-3">
+        <span class="font-mono text-[12px] tracking-tight text-paper">wassili<span class="text-mute">.mustafa.dev</span></span>
+        <div class="flex items-center gap-2">
+          <a href="https://wassili.mustafa.dev" class="flex items-center gap-2 rounded-[5px] bg-brass px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.13em] text-ink transition-colors hover:bg-brass/85">
+            <span class="h-1.5 w-1.5 rounded-full bg-ink"></span>Live demo
+          </a>
+          <a href="https://github.com/Mustafa3654/Wassili" class="rounded-[5px] border border-line px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper">
+            Source
+          </a>
+        </div>
+      </header>
+
+      <div class="grid gap-10 p-5 sm:p-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12">
+        <div>
+          <h3 class="font-display text-[1.85rem] font-bold leading-tight tracking-[-0.02em] text-paper">Wassili</h3>
+          <p class="mt-1.5 text-[15px] text-mute">Multi-vendor delivery &amp; marketplace platform</p>
+
+          <div class="mt-7 space-y-6">
+            <div class="border-l-2 border-clay/70 pl-4">
+              <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-clay">Problem</p>
+              <p class="mt-2 text-[15px] leading-[1.7] text-mute">
+                Local shops took orders in WhatsApp threads and dispatched drivers by voice note.
+                Nothing was recorded, prices drifted between USD and LBP, and nobody could say where an
+                order was without calling three people. Off-the-shelf delivery apps assumed a single
+                vendor, one currency, and a customer willing to install something.
+              </p>
+            </div>
+
+            <div class="border-l-2 border-brass pl-4">
+              <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-brass">Solution</p>
+              <p class="mt-2 text-[15px] leading-[1.7] text-mute">
+                A cart that splits one basket across several merchants, then hands each merchant its own
+                slice as a formatted WhatsApp message they can accept without leaving the app they already
+                live in. Every order gets a record, a dual-currency total pinned to the day's rate, and a
+                tracking state that customers and drivers read from the same source.
+              </p>
+            </div>
+          </div>
+
+          <ul class="mt-7 grid gap-2.5 sm:grid-cols-2">
+            <li class="flex gap-2.5 text-[14px] leading-snug text-mute"><span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-brass"></span>One cart splits into per-merchant orders</li>
+            <li class="flex gap-2.5 text-[14px] leading-snug text-mute"><span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-brass"></span>WhatsApp dispatch, no merchant app required</li>
+            <li class="flex gap-2.5 text-[14px] leading-snug text-mute"><span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-brass"></span>USD + LBP pricing on a managed rate</li>
+            <li class="flex gap-2.5 text-[14px] leading-snug text-mute"><span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-brass"></span>Driver assignment and live order state</li>
+          </ul>
+
+          <div class="mt-7 flex flex-wrap gap-1.5">
+            <span class="rounded-[4px] border border-line bg-raise px-2.5 py-1 font-mono text-[10.5px] tracking-[0.05em] text-mute">Laravel</span>
+            <span class="rounded-[4px] border border-line bg-raise px-2.5 py-1 font-mono text-[10.5px] tracking-[0.05em] text-mute">Blade</span>
+            <span class="rounded-[4px] border border-line bg-raise px-2.5 py-1 font-mono text-[10.5px] tracking-[0.05em] text-mute">Filament</span>
+            <span class="rounded-[4px] border border-line bg-raise px-2.5 py-1 font-mono text-[10.5px] tracking-[0.05em] text-mute">MySQL</span>
+            <span class="rounded-[4px] border border-line bg-raise px-2.5 py-1 font-mono text-[10.5px] tracking-[0.05em] text-mute">WhatsApp API</span>
+            <span class="rounded-[4px] border border-line bg-raise px-2.5 py-1 font-mono text-[10.5px] tracking-[0.05em] text-mute">Tailwind</span>
+          </div>
+        </div>
+
+        <!-- Flow diagram: the real order path -->
+        <div class="rounded-[8px] border border-line bg-ink/50 p-5">
+          <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-mute/70">Order path</p>
+          <div class="mt-5">
+            <div class="rounded-[5px] border border-line bg-surface px-3 py-2.5 font-mono text-[11.5px] text-paper">Customer basket</div>
+            <div class="ml-4 h-5 w-px bg-line"></div>
+            <div class="rounded-[5px] border border-brass/60 bg-brass/[0.07] px-3 py-2.5 font-mono text-[11.5px] text-brass">Split by merchant</div>
+            <div class="ml-4 h-5 w-px bg-line"></div>
+            <div class="grid grid-cols-2 gap-2">
+              <div class="rounded-[5px] border border-line bg-surface px-3 py-2.5 font-mono text-[11.5px] text-paper">Merchant A</div>
+              <div class="rounded-[5px] border border-line bg-surface px-3 py-2.5 font-mono text-[11.5px] text-paper">Merchant B</div>
+            </div>
+            <div class="ml-4 h-5 w-px bg-line"></div>
+            <div class="rounded-[5px] border border-line bg-surface px-3 py-2.5 font-mono text-[11.5px] text-paper">WhatsApp ticket</div>
+            <div class="ml-4 h-5 w-px bg-line"></div>
+            <div class="rounded-[5px] border border-line bg-surface px-3 py-2.5 font-mono text-[11.5px] text-paper">Driver &amp; tracking</div>
+          </div>
+          <p class="mt-5 border-t border-line pt-4 text-[13px] leading-relaxed text-mute">
+            The merchant never installs anything. The ticket arrives where they already are.
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <!-- ── Sortifya ── -->
+    <article class="ticked reveal relative mt-8 rounded-[10px] border border-line bg-surface transition-colors hover:border-linehi">
+      <header class="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-raise/50 px-5 py-3">
+        <span class="font-mono text-[12px] tracking-tight text-paper">sortifya<span class="text-mute">.mustafa.dev</span></span>
+        <div class="flex items-center gap-2">
+          <a href="https://sortifya.mustafa.dev" class="flex items-center gap-2 rounded-[5px] bg-brass px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.13em] text-ink transition-colors hover:bg-brass/85">
+            <span class="h-1.5 w-1.5 rounded-full bg-ink"></span>Live demo
+          </a>
+          <a href="https://github.com/Mustafa3654/sortifya" class="rounded-[5px] border border-line px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper">
+            Source
+          </a>
+        </div>
+      </header>
+
+      <div class="grid gap-10 p-5 sm:p-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
+        <!-- Diagram leads on desktop — alternating rhythm against Wassili -->
+        <div class="order-2 rounded-[8px] border border-line bg-ink/50 p-5 lg:order-1">
+          <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-mute/70">Task lifecycle</p>
+          <div class="mt-5">
+            <div class="rounded-[5px] border border-line bg-surface px-3 py-2.5 font-mono text-[11.5px] text-paper">Scanned PDF batch</div>
+            <div class="ml-4 h-5 w-px bg-line"></div>
+            <div class="rounded-[5px] border border-line bg-surface px-3 py-2.5 font-mono text-[11.5px] text-paper">Worker claims task</div>
+            <div class="ml-4 h-5 w-px bg-line"></div>
+            <div class="rounded-[5px] border border-brass/60 bg-brass/[0.07] px-3 py-2.5 font-mono text-[11.5px] text-brass">Transcribe &rarr; Excel</div>
+            <div class="ml-4 h-5 w-px bg-line"></div>
+            <div class="rounded-[5px] border border-line bg-surface px-3 py-2.5 font-mono text-[11.5px] text-paper">Admin review</div>
+            <div class="ml-4 h-5 w-px bg-line"></div>
+            <div class="rounded-[5px] border border-line bg-surface px-3 py-2.5 font-mono text-[11.5px] text-paper">Withdrawal + notify</div>
+          </div>
+          <p class="mt-5 border-t border-line pt-4 text-[13px] leading-relaxed text-mute">
+            A claimed task locks to one worker, so two people can never bill for the same page.
+          </p>
+        </div>
+
+        <div class="order-1 lg:order-2">
+          <h3 class="font-display text-[1.85rem] font-bold leading-tight tracking-[-0.02em] text-paper">Sortifya</h3>
+          <p class="mt-1.5 text-[15px] text-mute">Crowdsourced micro-task data platform</p>
+
+          <div class="mt-7 space-y-6">
+            <div class="border-l-2 border-clay/70 pl-4">
+              <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-clay">Problem</p>
+              <p class="mt-2 text-[15px] leading-[1.7] text-mute">
+                Businesses sit on archives of scanned paper that OCR mangles — handwriting, stamps,
+                Arabic and English on the same page. Digitising it means paying people, and paying people
+                means tracking who did which page, whether it was right, and what they are owed. That
+                bookkeeping is what usually kills the project.
+              </p>
+            </div>
+
+            <div class="border-l-2 border-brass pl-4">
+              <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-brass">Solution</p>
+              <p class="mt-2 text-[15px] leading-[1.7] text-mute">
+                A queue where workers claim a single PDF, transcribe it into a structured sheet, and submit
+                for review. Approvals credit a per-worker balance; withdrawal requests push a notification
+                straight into the admin panel with the payout amount and the work it covers. The ledger is
+                the product — the transcription is just the input.
+              </p>
+            </div>
+          </div>
+
+          <ul class="mt-7 grid gap-2.5 sm:grid-cols-2">
+            <li class="flex gap-2.5 text-[14px] leading-snug text-mute"><span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-brass"></span>PDF extraction into structured Excel</li>
+            <li class="flex gap-2.5 text-[14px] leading-snug text-mute"><span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-brass"></span>Task claiming with per-worker locks</li>
+            <li class="flex gap-2.5 text-[14px] leading-snug text-mute"><span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-brass"></span>Review queue before anything is paid</li>
+            <li class="flex gap-2.5 text-[14px] leading-snug text-mute"><span class="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-brass"></span>Withdrawal alerts in the admin panel</li>
+          </ul>
+
+          <div class="mt-7 flex flex-wrap gap-1.5">
+            <span class="rounded-[4px] border border-line bg-raise px-2.5 py-1 font-mono text-[10.5px] tracking-[0.05em] text-mute">Laravel</span>
+            <span class="rounded-[4px] border border-line bg-raise px-2.5 py-1 font-mono text-[10.5px] tracking-[0.05em] text-mute">Filament</span>
+            <span class="rounded-[4px] border border-line bg-raise px-2.5 py-1 font-mono text-[10.5px] tracking-[0.05em] text-mute">MySQL</span>
+            <span class="rounded-[4px] border border-line bg-raise px-2.5 py-1 font-mono text-[10.5px] tracking-[0.05em] text-mute">PhpSpreadsheet</span>
+            <span class="rounded-[4px] border border-line bg-raise px-2.5 py-1 font-mono text-[10.5px] tracking-[0.05em] text-mute">Queues</span>
+            <span class="rounded-[4px] border border-line bg-raise px-2.5 py-1 font-mono text-[10.5px] tracking-[0.05em] text-mute">EN / AR RTL</span>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ══ ALL WORK — filterable ════════════════════════════════════════ -->
+<section id="work" class="border-b border-line">
+  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
+
+    <div class="reveal flex flex-col gap-7 border-b border-line pb-7 md:flex-row md:items-end md:justify-between">
+      <div class="max-w-xl">
+        <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-brass">All work</p>
+        <h2 class="mt-4 font-display text-[2rem] font-bold leading-[1.05] tracking-[-0.025em] text-paper sm:text-[2.6rem]">
+          Everything else that's running.
+        </h2>
+      </div>
+
+      <div role="group" aria-label="Filter projects by type" class="flex flex-wrap gap-1.5">
+        <button type="button" data-filter="all" aria-pressed="true"
+          class="filter-btn rounded-[5px] border border-line bg-surface px-3.5 py-2 font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper aria-pressed:border-brass aria-pressed:bg-brass aria-pressed:text-ink">
+          All <span class="opacity-60">10</span>
+        </button>
+        <button type="button" data-filter="apps" aria-pressed="false"
+          class="filter-btn rounded-[5px] border border-line bg-surface px-3.5 py-2 font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper aria-pressed:border-brass aria-pressed:bg-brass aria-pressed:text-ink">
+          Web apps <span class="opacity-60">3</span>
+        </button>
+        <button type="button" data-filter="commerce" aria-pressed="false"
+          class="filter-btn rounded-[5px] border border-line bg-surface px-3.5 py-2 font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper aria-pressed:border-brass aria-pressed:bg-brass aria-pressed:text-ink">
+          Commerce &amp; menus <span class="opacity-60">4</span>
+        </button>
+        <button type="button" data-filter="tools" aria-pressed="false"
+          class="filter-btn rounded-[5px] border border-line bg-surface px-3.5 py-2 font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper aria-pressed:border-brass aria-pressed:bg-brass aria-pressed:text-ink">
+          Tools &amp; scripts <span class="opacity-60">3</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="project-grid" class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+      <!-- ── Web apps ── -->
+      <article data-category="apps" class="project-card group flex flex-col rounded-[9px] border border-line bg-surface p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-linehi hover:bg-raise/40">
+        <div class="flex items-center justify-between gap-2">
+          <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-mute/70">Web app</span>
+          <span class="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.13em] text-signal"><span class="h-1.5 w-1.5 rounded-full bg-signal"></span>Live</span>
+        </div>
+        <h3 class="mt-4 font-display text-[1.3rem] font-bold tracking-[-0.015em] text-paper">Wassili</h3>
+        <p class="mt-2 flex-1 text-[14px] leading-[1.65] text-mute">On-demand delivery marketplace connecting customers, local stores and independent drivers — WhatsApp dispatch, real-time tracking, USD + LBP pricing.</p>
+        <p class="mt-4 font-mono text-[11px] text-mute/80">Laravel &middot; Blade &middot; MySQL</p>
+        <div class="mt-4 flex items-center gap-2 border-t border-line pt-4">
+          <a href="https://wassili.mustafa.dev" class="flex-1 rounded-[5px] bg-brass/12 px-3 py-2 text-center font-mono text-[11px] uppercase tracking-[0.13em] text-brass transition-colors hover:bg-brass hover:text-ink">Live demo</a>
+          <a href="https://github.com/Mustafa3654/Wassili" class="rounded-[5px] border border-line px-3 py-2 font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper">Code</a>
+        </div>
+      </article>
+
+      <article data-category="apps" class="project-card group flex flex-col rounded-[9px] border border-line bg-surface p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-linehi hover:bg-raise/40">
+        <div class="flex items-center justify-between gap-2">
+          <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-mute/70">Web app</span>
+          <span class="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.13em] text-signal"><span class="h-1.5 w-1.5 rounded-full bg-signal"></span>Live</span>
+        </div>
+        <h3 class="mt-4 font-display text-[1.3rem] font-bold tracking-[-0.015em] text-paper">Sortifya</h3>
+        <p class="mt-2 flex-1 text-[14px] leading-[1.65] text-mute">Micro-task data entry: claim a scanned PDF, transcribe it to Excel, get paid in USD. Review queue and withdrawal ledger built in.</p>
+        <p class="mt-4 font-mono text-[11px] text-mute/80">Laravel &middot; Filament &middot; EN/AR RTL</p>
+        <div class="mt-4 flex items-center gap-2 border-t border-line pt-4">
+          <a href="https://sortifya.mustafa.dev" class="flex-1 rounded-[5px] bg-brass/12 px-3 py-2 text-center font-mono text-[11px] uppercase tracking-[0.13em] text-brass transition-colors hover:bg-brass hover:text-ink">Live demo</a>
+          <a href="https://github.com/Mustafa3654/sortifya" class="rounded-[5px] border border-line px-3 py-2 font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper">Code</a>
+        </div>
+      </article>
+
+      <article data-category="apps" class="project-card group flex flex-col rounded-[9px] border border-line bg-surface p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-linehi hover:bg-raise/40">
+        <div class="flex items-center justify-between gap-2">
+          <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-mute/70">Web app</span>
+          <span class="rounded-[4px] border border-clay/60 bg-clay/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.13em] text-clay">Beta &middot; WIP</span>
+        </div>
+        <h3 class="mt-4 font-display text-[1.3rem] font-bold tracking-[-0.015em] text-paper">Recipes</h3>
+        <p class="mt-2 flex-1 text-[14px] leading-[1.65] text-mute">An archive of Lebanese home cooking — searchable by ingredient, scalable by serving count, written in Arabic and English.</p>
+        <p class="mt-4 font-mono text-[11px] text-mute/80">Laravel &middot; Filament &middot; Search</p>
+        <div class="mt-4 flex items-center gap-2 border-t border-line pt-4">
+          <a href="https://recipes.mustafa.dev" class="flex-1 rounded-[5px] border border-clay/40 bg-clay/10 px-3 py-2 text-center font-mono text-[11px] uppercase tracking-[0.13em] text-clay transition-colors hover:bg-clay hover:text-ink">Preview beta</a>
+          <span class="rounded-[5px] border border-line px-3 py-2 font-mono text-[11px] uppercase tracking-[0.13em] text-mute/50">Soon</span>
+        </div>
+      </article>
+
+      <!-- ── Commerce &amp; menus ── -->
+      <article data-category="commerce" class="project-card group flex flex-col rounded-[9px] border border-line bg-surface p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-linehi hover:bg-raise/40">
+        <div class="flex items-center justify-between gap-2">
+          <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-mute/70">E-commerce</span>
+          <span class="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.13em] text-signal"><span class="h-1.5 w-1.5 rounded-full bg-signal"></span>Live</span>
+        </div>
+        <h3 class="mt-4 font-display text-[1.3rem] font-bold tracking-[-0.015em] text-paper">Amanelle Beauty</h3>
+        <p class="mt-2 flex-1 text-[14px] leading-[1.65] text-mute">Bilingual (ar/en) cosmetics storefront with full RTL and a Filament back office for stock, pricing and orders.</p>
+        <p class="mt-4 font-mono text-[11px] text-mute/80">Laravel 13 &middot; Filament 5 &middot; Livewire 4</p>
+        <div class="mt-4 flex items-center gap-2 border-t border-line pt-4">
+          <a href="https://amanelle.mustafa.dev" class="flex-1 rounded-[5px] bg-brass/12 px-3 py-2 text-center font-mono text-[11px] uppercase tracking-[0.13em] text-brass transition-colors hover:bg-brass hover:text-ink">Live demo</a>
+          <a href="https://github.com/Mustafa3654/amanelle" class="rounded-[5px] border border-line px-3 py-2 font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper">Code</a>
+        </div>
+      </article>
+
+      <article data-category="commerce" class="project-card group flex flex-col rounded-[9px] border border-line bg-surface p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-linehi hover:bg-raise/40">
+        <div class="flex items-center justify-between gap-2">
+          <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-mute/70">Digital menu</span>
+          <span class="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.13em] text-signal"><span class="h-1.5 w-1.5 rounded-full bg-signal"></span>Live</span>
+        </div>
+        <h3 class="mt-4 font-display text-[1.3rem] font-bold tracking-[-0.015em] text-paper">AlphaMenu</h3>
+        <p class="mt-2 flex-1 text-[14px] leading-[1.65] text-mute">Responsive QR menu with an admin dashboard for dishes, categories, branding, pricing and bulk imports. No developer needed to change a price.</p>
+        <p class="mt-4 font-mono text-[11px] text-mute/80">PHP &middot; MySQL &middot; QR</p>
+        <div class="mt-4 flex items-center gap-2 border-t border-line pt-4">
+          <a href="https://menu.mustafa.dev" class="flex-1 rounded-[5px] bg-brass/12 px-3 py-2 text-center font-mono text-[11px] uppercase tracking-[0.13em] text-brass transition-colors hover:bg-brass hover:text-ink">Live demo</a>
+          <a href="https://github.com/Mustafa3654/AlphaMenu" class="rounded-[5px] border border-line px-3 py-2 font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper">Code</a>
+        </div>
+      </article>
+
+      <article data-category="commerce" class="project-card group flex flex-col rounded-[9px] border border-line bg-surface p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-linehi hover:bg-raise/40">
+        <div class="flex items-center justify-between gap-2">
+          <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-mute/70">Storefront</span>
+          <span class="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.13em] text-signal"><span class="h-1.5 w-1.5 rounded-full bg-signal"></span>Live</span>
+        </div>
+        <h3 class="mt-4 font-display text-[1.3rem] font-bold tracking-[-0.015em] text-paper">Nabil Mediterranean Food</h3>
+        <p class="mt-2 flex-1 text-[14px] leading-[1.65] text-mute">Official site and menu management system with online ordering, plus an AI Telegram assistant so the owner can run it from their phone.</p>
+        <p class="mt-4 font-mono text-[11px] text-mute/80">PHP &middot; MySQL &middot; Telegram Bot</p>
+        <div class="mt-4 flex items-center gap-2 border-t border-line pt-4">
+          <a href="https://nabil.mustafa.dev" class="flex-1 rounded-[5px] bg-brass/12 px-3 py-2 text-center font-mono text-[11px] uppercase tracking-[0.13em] text-brass transition-colors hover:bg-brass hover:text-ink">Live demo</a>
+          <a href="https://github.com/Mustafa3654/nabil-mediterranean-food" class="rounded-[5px] border border-line px-3 py-2 font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper">Code</a>
+        </div>
+      </article>
+
+      <article data-category="commerce" class="project-card group flex flex-col rounded-[9px] border border-line bg-surface p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-linehi hover:bg-raise/40">
+        <div class="flex items-center justify-between gap-2">
+          <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-mute/70">Digital menu</span>
+          <span class="rounded-[4px] border border-clay/60 bg-clay/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.13em] text-clay">In progress</span>
+        </div>
+        <h3 class="mt-4 font-display text-[1.3rem] font-bold tracking-[-0.015em] text-paper">AlphaDine</h3>
+        <p class="mt-2 flex-1 text-[14px] leading-[1.65] text-mute">Dine-in companion to AlphaMenu — table-side ordering that writes straight into the same menu and pricing data.</p>
+        <p class="mt-4 font-mono text-[11px] text-mute/80">PHP &middot; MySQL &middot; JavaScript</p>
+        <div class="mt-4 flex items-center gap-2 border-t border-line pt-4">
+          <a href="https://github.com/Mustafa3654/alphadine" class="flex-1 rounded-[5px] border border-line px-3 py-2 text-center font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper">Read the code</a>
+        </div>
+      </article>
+
+      <!-- ── Tools &amp; scripts ── -->
+      <article data-category="tools" class="project-card group flex flex-col rounded-[9px] border border-line bg-surface p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-linehi hover:bg-raise/40">
+        <div class="flex items-center justify-between gap-2">
+          <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-mute/70">Internal tool</span>
+          <span class="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.13em] text-signal"><span class="h-1.5 w-1.5 rounded-full bg-signal"></span>In use</span>
+        </div>
+        <h3 class="mt-4 font-display text-[1.3rem] font-bold tracking-[-0.015em] text-paper">Telegram admin assistant</h3>
+        <p class="mt-2 flex-1 text-[14px] leading-[1.65] text-mute">A bot that answers owner questions about orders and stock in plain language, so opening the admin panel is optional rather than mandatory.</p>
+        <p class="mt-4 font-mono text-[11px] text-mute/80">PHP &middot; Telegram API &middot; LLM</p>
+        <div class="mt-4 flex items-center gap-2 border-t border-line pt-4">
+          <a href="https://github.com/Mustafa3654/nabil-mediterranean-food" class="flex-1 rounded-[5px] border border-line px-3 py-2 text-center font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper">Read the code</a>
+        </div>
+      </article>
+
+      <article data-category="tools" class="project-card group flex flex-col rounded-[9px] border border-line bg-surface p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-linehi hover:bg-raise/40">
+        <div class="flex items-center justify-between gap-2">
+          <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-mute/70">Internal tool</span>
+          <span class="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.13em] text-signal"><span class="h-1.5 w-1.5 rounded-full bg-signal"></span>In use</span>
+        </div>
+        <h3 class="mt-4 font-display text-[1.3rem] font-bold tracking-[-0.015em] text-paper">Feedback collector</h3>
+        <p class="mt-2 flex-1 text-[14px] leading-[1.65] text-mute">A drop-in form and dashboard for gathering customer responses across client sites, with CSV export for whoever asks.</p>
+        <p class="mt-4 font-mono text-[11px] text-mute/80">PHP &middot; MySQL &middot; JavaScript</p>
+        <div class="mt-4 flex items-center gap-2 border-t border-line pt-4">
+          <a href="https://github.com/Mustafa3654/feedback" class="flex-1 rounded-[5px] border border-line px-3 py-2 text-center font-mono text-[11px] uppercase tracking-[0.13em] text-mute transition-colors hover:border-linehi hover:text-paper">Read the code</a>
+        </div>
+      </article>
+
+      <article data-category="tools" class="project-card group flex flex-col rounded-[9px] border border-line bg-surface p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-linehi hover:bg-raise/40">
+        <div class="flex items-center justify-between gap-2">
+          <span class="font-mono text-[10px] uppercase tracking-[0.16em] text-mute/70">Internal tool</span>
+          <span class="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.13em] text-signal"><span class="h-1.5 w-1.5 rounded-full bg-signal"></span>Live</span>
+        </div>
+        <h3 class="mt-4 font-display text-[1.3rem] font-bold tracking-[-0.015em] text-paper">Hosting &amp; deploy scripts</h3>
+        <p class="mt-2 flex-1 text-[14px] leading-[1.65] text-mute">Provisioning, subdomain routing, TLS and backups for every site on the board — written once at ComPutroniX, reused since.</p>
+        <p class="mt-4 font-mono text-[11px] text-mute/80">Bash &middot; cPanel &middot; Cron</p>
+        <div class="mt-4 flex items-center gap-2 border-t border-line pt-4">
+          <span class="flex-1 rounded-[5px] border border-line px-3 py-2 text-center font-mono text-[11px] uppercase tracking-[0.13em] text-mute/50">Private</span>
+        </div>
+      </article>
+    </div>
+
+    <p id="empty-state" class="mt-10 hidden text-center font-mono text-[12px] text-mute">
+      Nothing in this category yet. Pick another filter.
+    </p>
+  </div>
+</section>
+
+<!-- ══ PRACTICE ═════════════════════════════════════════════════════ -->
+<section id="practice" class="border-b border-line">
+  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-24">
+    <div class="reveal max-w-2xl">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-brass">Practice</p>
+      <h2 class="mt-4 font-display text-[2rem] font-bold leading-[1.05] tracking-[-0.025em] text-paper sm:text-[2.6rem]">
+        What building here actually requires.
+      </h2>
+      <p class="mt-4 text-[1.0625rem] leading-[1.65] text-mute">
+        Not a wall of logos. These are the constraints that decide whether a system survives contact
+        with a real business.
+      </p>
+    </div>
+
+    <div class="reveal mt-12 grid gap-px overflow-hidden rounded-[10px] border border-line bg-line md:grid-cols-2 lg:grid-cols-3">
+      <div class="bg-surface p-6">
+        <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-brass">Dual currency</p>
+        <h3 class="mt-3 font-display text-[1.15rem] font-bold text-paper">Prices that hold when the rate moves</h3>
+        <p class="mt-2.5 text-[14px] leading-[1.7] text-mute">Totals stored in USD, shown in LBP at a rate the owner controls, and frozen onto the order at checkout so a receipt never disagrees with itself later.</p>
+      </div>
+      <div class="bg-surface p-6">
+        <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-brass">WhatsApp-first</p>
+        <h3 class="mt-3 font-display text-[1.15rem] font-bold text-paper">Meeting people where they already are</h3>
+        <p class="mt-2.5 text-[14px] leading-[1.7] text-mute">Structured orders delivered as readable messages. No merchant downloads an app, and the system still keeps a clean record of what was agreed.</p>
+      </div>
+      <div class="bg-surface p-6">
+        <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-brass">Arabic &amp; RTL</p>
+        <h3 class="mt-3 font-display text-[1.15rem] font-bold text-paper">Bilingual as a layout problem</h3>
+        <p class="mt-2.5 text-[14px] leading-[1.7] text-mute">Right-to-left support with mirrored components, correct numeral handling and translated admin panels — built in from the schema up, not bolted on.</p>
+      </div>
+      <div class="bg-surface p-6">
+        <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-brass">Admin panels</p>
+        <h3 class="mt-3 font-display text-[1.15rem] font-bold text-paper">Software the owner can run alone</h3>
+        <p class="mt-2.5 text-[14px] leading-[1.7] text-mute">Filament back offices with the resources, filters and bulk actions a non-technical owner needs. If they have to call me to change a price, I built it wrong.</p>
+      </div>
+      <div class="bg-surface p-6">
+        <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-brass">Hosting</p>
+        <h3 class="mt-3 font-display text-[1.15rem] font-bold text-paper">Deployment is part of the job</h3>
+        <p class="mt-2.5 text-[14px] leading-[1.7] text-mute">Subdomain routing, TLS, cron, backups and restores. Running IT and hosting at ComPutroniX means shipping doesn't stop at the merge.</p>
+      </div>
+      <div class="bg-surface p-6">
+        <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-brass">Thin connections</p>
+        <h3 class="mt-3 font-display text-[1.15rem] font-bold text-paper">Fast on the network people have</h3>
+        <p class="mt-2.5 text-[14px] leading-[1.7] text-mute">Server-rendered pages, small payloads and cached queries — because the customer is on mobile data during a power cut, not on fibre.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══════════════════════════════════════════════════════ -->
+<section id="contact">
+  <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+    <div class="reveal grid gap-12 lg:grid-cols-[1fr_auto] lg:items-end">
+      <div class="max-w-2xl">
+        <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-brass">Contact</p>
+        <h2 class="mt-4 font-display text-[2.2rem] font-extrabold leading-[1.02] tracking-[-0.03em] text-paper sm:text-[3.1rem]">
+          Have a system that only exists<br class="hidden sm:block"> in someone's WhatsApp?
+        </h2>
+        <p class="mt-5 text-[1.0625rem] leading-[1.65] text-mute">
+          Tell me what the workaround is and who depends on it. I'll tell you what it takes to replace
+          it — scope, stack and timeline, before any invoice.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="mailto:maboualhajj@gmail.com" class="rounded-[6px] bg-brass px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-brass/85">
+            maboualhajj@gmail.com
+          </a>
+          <a href="tel:+96170535819" class="rounded-[6px] border border-line bg-surface px-5 py-2.5 text-sm font-semibold text-paper transition-colors hover:border-linehi hover:bg-raise">
+            +961 70 535 819
+          </a>
+        </div>
+      </div>
+
+      <div class="w-full max-w-xs rounded-[9px] border border-line bg-surface">
+        <div class="border-b border-line px-4 py-2.5">
+          <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-mute">Details</span>
+        </div>
+        <dl class="divide-y divide-line">
+          <div class="flex items-center justify-between gap-4 px-4 py-3">
+            <dt class="font-mono text-[11px] uppercase tracking-[0.13em] text-mute">Based in</dt>
+            <dd class="text-[13px] text-paper">Zahl&eacute;, Lebanon</dd>
+          </div>
+          <div class="flex items-center justify-between gap-4 px-4 py-3">
+            <dt class="font-mono text-[11px] uppercase tracking-[0.13em] text-mute">Working</dt>
+            <dd class="text-[13px] text-paper">Remote / on-site</dd>
+          </div>
+          <div class="flex items-center justify-between gap-4 px-4 py-3">
+            <dt class="font-mono text-[11px] uppercase tracking-[0.13em] text-mute">Reply time</dt>
+            <dd class="text-[13px] text-paper">Within a day</dd>
+          </div>
+          <div class="flex items-center justify-between gap-4 px-4 py-3">
+            <dt class="font-mono text-[11px] uppercase tracking-[0.13em] text-mute">CV</dt>
+            <dd><a href="#" class="text-[13px] text-brass hover:underline">Download PDF</a></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════════════ -->
+<footer class="border-t border-line">
+  <div class="mx-auto flex max-w-6xl flex-col gap-5 px-5 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+    <p class="font-mono text-[11px] tracking-[0.08em] text-mute">
+      &copy; <span id="year">2026</span> Mustafa Abou El-Hajj — built with Laravel &amp; Filament
+    </p>
+    <div class="flex items-center gap-6">
+      <a href="https://github.com/Mustafa3654" class="font-mono text-[11px] uppercase tracking-[0.14em] text-mute transition-colors hover:text-paper">GitHub</a>
+      <a href="https://www.linkedin.com/in/moustafa-abou-al-hajj-a55848279/" class="font-mono text-[11px] uppercase tracking-[0.14em] text-mute transition-colors hover:text-paper">LinkedIn</a>
+      <a href="#top" class="font-mono text-[11px] uppercase tracking-[0.14em] text-mute transition-colors hover:text-paper">Back to top</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* Scroll reveals. Content must never stay hidden if the observer misbehaves,
+     so anything already in the viewport is force-revealed shortly after load. */
+  const reveals = document.querySelectorAll('.reveal');
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    reveals.forEach((el) => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+
+    reveals.forEach((el) => io.observe(el));
+
+    setTimeout(() => {
+      reveals.forEach((el) => {
+        if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('in');
+      });
+    }, 1200);
+  }
+
+  /* Deployment board — one orchestrated load sequence */
+  document.querySelectorAll('.board-row').forEach((row, i) => {
+    if (reduce) { row.classList.add('in'); return; }
+    setTimeout(() => row.classList.add('in'), 260 + i * 95);
+  });
+
+  /* Project filter */
+  const buttons = document.querySelectorAll('.filter-btn');
+  const cards   = document.querySelectorAll('.project-card');
+  const empty   = document.getElementById('empty-state');
+
+  buttons.forEach((btn) => btn.addEventListener('click', () => {
+    const filter = btn.dataset.filter;
+
+    // aria-pressed is the single source of truth; the styling follows it via
+    // Tailwind's aria-pressed: variant, so there is no class list to keep in sync.
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+
+    let shown = 0;
+    cards.forEach((card) => {
+      const match = filter === 'all' || card.dataset.category === filter;
+      card.classList.toggle('hidden', !match);
+      if (match) shown++;
+    });
+    empty.classList.toggle('hidden', shown !== 0);
+  }));
+})();
+</script>
+</body>
+</html>

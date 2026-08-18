@@ -1,0 +1,32 @@
+# Database dumps — contain the admin password_hash and personal data.
+# Schema lives in Laravel migrations instead.
+/DB/
+*.sql
+
+# Laravel
+/vendor/
+/node_modules/
+/public/build/
+/public/hot
+/public/storage
+/storage/*.key
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+.env
+.env.backup
+.env.production
+.phpunit.result.cache
+
+# Tooling
+/.idea
+/.vscode
+/.fleet
+.DS_Store
+Thumbs.db
+npm-debug.log
+yarn-error.log
+
+# CV contains a home address and phone number — serve it from storage, not the repo.
+assets/uploads/*.pdf
