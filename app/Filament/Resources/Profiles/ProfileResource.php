@@ -38,6 +38,12 @@ class ProfileResource extends Resource
     }
 
     // The site has exactly one profile, so creating a second is meaningless.
+    // Distinct from the account page at /admin/profile, which edits the
+    // logged-in user's own email and password.
+    protected static ?string $navigationLabel = 'Site profile';
+
+    protected static ?string $modelLabel = 'site profile';
+
     public static function canCreate(): bool
     {
         return Profile::query()->doesntExist();

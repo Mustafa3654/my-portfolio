@@ -68,7 +68,7 @@
 
             {{-- ── Signature element: the deployment board ── --}}
             <div data-parallax="-0.03">
-                <div class="sweep overflow-hidden rounded-[10px] border border-line bg-surface shadow-[0_28px_70px_-32px_rgba(0,0,0,.95)]">
+                <div class="sweep overflow-hidden rounded-[10px] border border-line bg-surface panel-shadow">
 
                     <div class="flex items-center justify-between border-b border-line bg-raise/70 px-4 py-3">
                         <span class="t-eyebrow text-mute">Deployment board</span>

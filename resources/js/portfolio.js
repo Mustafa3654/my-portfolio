@@ -184,9 +184,49 @@ function projectFilter() {
     }));
 }
 
+/* ── Theme toggle ─────────────────────────────────────────────────────
+   The initial theme is set by an inline script in the layout so there is
+   no flash; this only handles switching and remembering the choice. */
+function themeToggle() {
+    const button = document.querySelector('[data-theme-toggle]');
+    if (!button) return;
+
+    const root = document.documentElement;
+
+    const sync = () => {
+        const isLight = root.dataset.theme === 'light';
+        button.setAttribute('aria-pressed', String(isLight));
+        button.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+    };
+
+    sync();
+
+    button.addEventListener('click', () => {
+        root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+        try {
+            localStorage.setItem('theme', root.dataset.theme);
+        } catch (e) {
+            // Private mode: the theme still switches, it just won't persist.
+        }
+        sync();
+    });
+
+    // Follow the OS only while the visitor hasn't made an explicit choice.
+    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
+        try {
+            if (localStorage.getItem('theme')) return;
+        } catch (err) {
+            return;
+        }
+        root.dataset.theme = e.matches ? 'light' : 'dark';
+        sync();
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const reduce = reduced();
     currentYear();
+    themeToggle();
     heroSequence(reduce);
     scrollReveals(reduce);
     parallax(reduce);
