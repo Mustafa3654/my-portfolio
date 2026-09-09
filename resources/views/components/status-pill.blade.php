@@ -7,6 +7,7 @@
         'in-use'  => ['label' => 'In use',      'tone' => 'signal', 'solid' => true],
         'beta'    => ['label' => 'Beta',        'tone' => 'clay',   'solid' => false],
         'wip'     => ['label' => 'In progress', 'tone' => 'clay',   'solid' => false],
+        'complete' => ['label' => 'Complete',   'tone' => 'mute',   'solid' => true],
         'private' => ['label' => 'Private',     'tone' => 'mute',   'solid' => false],
     ];
 

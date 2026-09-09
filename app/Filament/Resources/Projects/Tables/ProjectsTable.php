@@ -41,6 +41,7 @@ class ProjectsTable
                     ->color(fn ($state) => match ($state) {
                         'live', 'in-use' => 'success',
                         'beta', 'wip'    => 'warning',
+                        'complete'       => 'info',
                         default          => 'gray',
                     })
                     ->sortable(),
@@ -87,6 +88,7 @@ class ProjectsTable
                     'in-use'  => 'In use',
                     'beta'    => 'Beta',
                     'wip'     => 'In progress',
+                    'complete' => 'Complete',
                     'private' => 'Private',
                 ]),
 

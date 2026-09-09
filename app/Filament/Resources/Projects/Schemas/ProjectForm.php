@@ -61,6 +61,7 @@ class ProjectForm
                                 'in-use'  => 'In use',
                                 'beta'    => 'Beta',
                                 'wip'     => 'In progress',
+                                'complete' => 'Complete',
                                 'private' => 'Private',
                             ])
                             ->helperText('Drives the status pill and the beta styling.'),

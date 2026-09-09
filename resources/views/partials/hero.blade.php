@@ -1,7 +1,6 @@
 @php
-    $me   = config('portfolio.identity');
-    $hero = config('portfolio.hero');
-    // $board comes from HomeController (Project::onBoard()).
+    // $profile comes from the view composer; $board from HomeController.
+    $headline = $profile->headline_lines;
     $liveCount = $board->whereIn('status', ['live', 'in-use'])->count();
     $betaCount = $board->whereIn('status', ['beta', 'wip'])->count();
 @endphp
@@ -13,18 +12,18 @@
 
         {{-- ── Statement: full width so the headline can run big ── --}}
         <p class="t-eyebrow flex flex-wrap items-center gap-x-3 gap-y-2 text-mute">
-            @if ($me['available'])
+            @if ($profile->is_available)
                 <span class="beacon inline-block h-1.5 w-1.5 rounded-full bg-signal text-signal" aria-hidden="true"></span>
             @endif
-            <span>{{ $me['location'] }}</span>
+            <span>{{ $profile->location }}</span>
             <span class="text-linehi" aria-hidden="true">/</span>
-            <span>{{ $me['available'] ? 'Open to work & contracts' : 'Currently booked' }}</span>
+            <span>{{ $profile->is_available ? ($profile->availability ?: 'Open to work') : 'Currently booked' }}</span>
         </p>
 
         <h1 class="t-hero mt-7 text-paper">
-            @foreach ($hero['headline'] as $i => $line)
+            @foreach ($headline as $i => $line)
                 <span class="line-mask">
-                    <span @class(['accent-text [--accent:var(--color-brass)]' => $i === $hero['accent_line']])>{{ $line }}</span>
+                    <span @class(['accent-text [--accent:var(--color-brass)]' => $i === (int) $profile->accent_line])>{{ $line }}</span>
                 </span>
             @endforeach
         </h1>
@@ -32,7 +31,7 @@
         <div class="mt-10 grid gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16">
 
             <div class="reveal">
-                <p class="max-w-xl text-[1.0625rem] leading-[1.65] text-mute">{{ $hero['bio'] }}</p>
+                <p class="max-w-xl text-[1.0625rem] leading-[1.65] text-mute">{{ $profile->bio }}</p>
 
                 <div class="mt-9 flex flex-wrap items-center gap-3">
                     <a href="#spotlight"
@@ -47,7 +46,7 @@
 
                 {{-- Stats step up in scale and count in on view --}}
                 <dl class="mt-12 grid max-w-xl grid-cols-3 gap-px overflow-hidden rounded-[9px] border border-line bg-line">
-                    @foreach ($hero['stats'] as $stat)
+                    @foreach (($profile->stats ?? []) as $stat)
                         @php
                             // Split a leading number off so it can animate,
                             // e.g. "15 systems" → 15 + " systems".

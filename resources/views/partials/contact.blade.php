@@ -1,7 +1,4 @@
-@php
-    $me      = config('portfolio.identity');
-    $contact = config('portfolio.contact');
-@endphp
+@php $details = config('portfolio.contact.details', []); @endphp
 
 <section id="contact">
     <div class="mx-auto max-w-6xl px-5 py-24 sm:px-8 sm:py-36">
@@ -11,19 +8,19 @@
                 <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-brass">Contact</p>
 
                 <h2 class="t-section mt-5 text-paper">
-                    {{ $contact['heading'][0] }}<br class="hidden sm:block"> {{ $contact['heading'][1] }}
+                    {{ $profile->contact_heading }}
                 </h2>
 
-                <p class="mt-5 text-[1.0625rem] leading-[1.65] text-mute">{{ $contact['body'] }}</p>
+                <p class="mt-5 text-[1.0625rem] leading-[1.65] text-mute">{{ $profile->contact_body }}</p>
 
                 <div class="mt-8 flex flex-wrap gap-3">
-                    <a href="mailto:{{ $me['email'] }}"
+                    <a href="mailto:{{ $profile->email }}"
                        class="rounded-[6px] bg-brass px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-brass/85">
-                        {{ $me['email'] }}
+                        {{ $profile->email }}
                     </a>
-                    <a href="tel:{{ $me['phone_tel'] }}"
+                    <a href="tel:{{ $profile->phone_tel }}"
                        class="rounded-[6px] border border-line bg-surface px-5 py-2.5 text-sm font-semibold text-paper transition-colors hover:border-linehi hover:bg-raise">
-                        {{ $me['phone'] }}
+                        {{ $profile->phone }}
                     </a>
                 </div>
             </div>
@@ -34,17 +31,17 @@
                 </div>
 
                 <dl class="divide-y divide-line">
-                    @foreach ($contact['details'] as $detail)
+                    @foreach ($details as $detail)
                         <div class="flex items-center justify-between gap-4 px-4 py-3">
                             <dt class="font-mono text-[11px] uppercase tracking-[0.13em] text-mute">{{ $detail['label'] }}</dt>
                             <dd class="text-[13px] text-paper">{{ $detail['value'] }}</dd>
                         </div>
                     @endforeach
 
-                    @if ($me['cv'])
+                    @if ($cv?->url)
                         <div class="flex items-center justify-between gap-4 px-4 py-3">
                             <dt class="font-mono text-[11px] uppercase tracking-[0.13em] text-mute">CV</dt>
-                            <dd><a href="{{ $me['cv'] }}" class="text-[13px] text-brass hover:underline">Download PDF</a></dd>
+                            <dd><a href="{{ $cv->url }}" target="_blank" rel="noopener" class="text-[13px] text-brass hover:underline">Download PDF</a></dd>
                         </div>
                     @endif
                 </dl>

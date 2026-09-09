@@ -76,7 +76,7 @@
         @elseif ($live && $isPending)
             <span class="rounded-[6px] border border-line px-3 py-2.5 font-mono text-[11px] uppercase tracking-[0.13em] text-mute/50">Soon</span>
         @elseif (! $live)
-            <span class="flex-1 rounded-[6px] border border-line px-3 py-2.5 text-center font-mono text-[11px] uppercase tracking-[0.13em] text-mute/50">Private</span>
+            <span class="flex-1 rounded-[6px] border border-line px-3 py-2.5 text-center font-mono text-[11px] uppercase tracking-[0.13em] text-mute/50">{{ $status === 'private' ? 'Private' : 'Not deployed' }}</span>
         @endif
     </div>
 </article>

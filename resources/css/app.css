@@ -23,6 +23,7 @@
   --color-violet:   #9b8cf0;
   --color-signal:   #5fc98a;
   --color-clay:     #dd8f66;
+  --color-rose:     #e0748c;
 
   --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
   --font-sans:    "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
@@ -54,6 +55,7 @@
   .cat-apps     { --accent: var(--color-cyan); }
   .cat-commerce { --accent: var(--color-brass); }
   .cat-tools    { --accent: var(--color-violet); }
+  .cat-games    { --accent: var(--color-rose); }
   .accent-text  { color: var(--accent, var(--color-brass)); }
   .accent-bd    { border-color: var(--accent, var(--color-brass)); }
   .accent-bg    { background-color: var(--accent, var(--color-brass)); }

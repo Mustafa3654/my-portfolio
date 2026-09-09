@@ -1,11 +1,10 @@
-@php $me = config('portfolio.identity'); @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('title', $me['name'] . ' — ' . $me['role'])</title>
+    <title>@yield('title', $profile->name . ' — ' . $profile->role)</title>
     <meta name="description" content="@yield('description', 'Full-stack systems and web engineer. Multi-vendor delivery dispatch, bilingual storefronts, QR menus and the admin panels that keep them honest — shipped and running in the Lebanese market.')">
 
     {{-- Fonts are self-hosted via the Bunny helper in vite.config.js, so the page

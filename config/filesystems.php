@@ -47,6 +47,22 @@ return [
             'report' => false,
         ],
 
+        /*
+        | Public documents (CV, certificates).
+        |
+        | Writes straight into public/documents rather than storage/app/public,
+        | so it needs no `storage:link` symlink — which is what breaks on
+        | Windows/XAMPP without administrator rights.
+        */
+        'documents' => [
+            'driver' => 'local',
+            'root' => public_path('documents'),
+            'url' => '/documents',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

@@ -12,7 +12,7 @@
         />
 
         <div class="reveal mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            @foreach (config('portfolio.practice') as $i => $item)
+            @foreach ($capabilities as $i => $item)
                 {{-- Alternating hues keep six similar cards from flattening out;
                      the first card runs wide to break the even grid. --}}
                 <div @class([
@@ -22,13 +22,13 @@
                 ])>
                     <span class="card-rule rounded-tl-[11px]" aria-hidden="true"></span>
 
-                    <p class="accent-text font-mono text-[10px] uppercase tracking-[0.18em]">{{ $item['label'] }}</p>
+                    <p class="accent-text font-mono text-[10px] uppercase tracking-[0.18em]">{{ $item->label }}</p>
 
                     <h3 class="mt-4 font-display text-[1.25rem] font-bold leading-tight tracking-[-0.02em] text-paper">
-                        {{ $item['title'] }}
+                        {{ $item->title }}
                     </h3>
 
-                    <p class="mt-3 text-[14.5px] leading-[1.68] text-mute">{{ $item['body'] }}</p>
+                    <p class="mt-3 text-[14.5px] leading-[1.68] text-mute">{{ $item->body }}</p>
                 </div>
             @endforeach
         </div>
