@@ -135,3 +135,33 @@ Status values the components understand: `live`, `in-use`, `beta`, `wip`, `priva
 - **Recipes** is listed as beta/WIP with no repo yet.
 - `CyberpunkExpress` (private Unity game) is not in the grid — it doesn't fit the
   three categories. Add a fourth category if you want it shown.
+
+## Exposing it publicly (ngrok or any HTTPS proxy)
+
+```bash
+php artisan serve
+```
+
+```bash
+ngrok http 8000
+```
+
+`bootstrap/app.php` trusts all proxies. Without that, the request reaches PHP
+over plain HTTP, so Laravel builds every asset and form URL with an `http://`
+scheme — the browser blocks them as mixed content on an HTTPS page and the site
+loads unstyled, with Livewire and the Filament panel failing outright.
+
+Nothing else needs changing: `APP_URL` stays `http://localhost:8000` because
+`asset()` and `url()` derive the host and scheme from the incoming request once
+the proxy is trusted.
+
+Two things that are not bugs:
+
+- `xmlns="http://www.w3.org/2000/svg"` appears as an `http://` string. It is an
+  XML namespace identifier, never fetched, so it is not mixed content.
+- Filament emits one font URL with a Windows backslash
+  (`.../inter\index.css`). Browsers normalise `\` to `/` in URL paths, and the
+  file resolves.
+
+Behind a fixed load balancer rather than a tunnel, replace `at: '*'` with the
+proxy's addresses so the forwarded headers cannot be spoofed by a client.
