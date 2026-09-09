@@ -1,6 +1,7 @@
 @props([
     'name',
     'host',
+    'liveUrl' => null,
     'tagline',
     'problem',
     'solution',
@@ -11,7 +12,7 @@
     'mediaFirst'  => false,
 ])
 
-@php $live = 'https://' . $host . '.' . config('portfolio.domain'); @endphp
+@php $live = $liveUrl; @endphp
 
 <article {{ $attributes->class([
     'ticked reveal relative overflow-hidden rounded-[14px] border border-line bg-surface transition-colors hover:border-linehi',

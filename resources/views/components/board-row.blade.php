@@ -1,13 +1,16 @@
-@props(['host', 'summary', 'status' => 'live', 'last' => false])
+@props(['host', 'url', 'summary', 'status' => 'live', 'last' => false])
 
-@php $url = 'https://' . $host . '.' . config('portfolio.domain'); @endphp
+@php
+    $label = Str::before($host, '.');
+    $rest  = Str::contains($host, '.') ? '.'.Str::after($host, '.') : '';
+@endphp
 
 <li class="board-row">
     <a href="{{ $url }}"
        class="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3.5 transition-colors hover:bg-raise @unless($last) border-b border-line @endunless">
         <span class="min-w-0">
             <span class="block truncate font-mono text-[13px] text-paper transition-colors group-hover:text-brass">
-                {{ $host }}<span class="text-mute">.{{ config('portfolio.domain') }}</span>
+                {{ $label }}<span class="text-mute">{{ $rest }}</span>
             </span>
             <span class="mt-0.5 block truncate text-[13px] text-mute">{{ $summary }}</span>
         </span>

@@ -9,6 +9,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
+use App\Models\Project;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 
@@ -66,12 +67,32 @@ class ProjectForm
                     ]),
 
                 Section::make('Links')
+                    ->description('Choose how this project is reached: a subdomain of your root domain, or a domain it owns outright.')
                     ->columns(2)
                     ->schema([
+                        Select::make('link_type')
+                            ->label('Address')
+                            ->required()
+                            ->live()
+                            ->default(Project::LINK_SUBDOMAIN)
+                            ->options(Project::linkTypes())
+                            ->columnSpanFull(),
+
                         TextInput::make('host')
+                            ->label('Subdomain')
+                            ->visible(fn ($get) => $get('link_type') === Project::LINK_SUBDOMAIN)
+                            ->required(fn ($get) => $get('link_type') === Project::LINK_SUBDOMAIN)
                             ->prefix('https://')
                             ->suffix('.'.config('portfolio.domain'))
-                            ->helperText('Subdomain only. Leave empty if it is not deployed.'),
+                            ->helperText('The label only, e.g. "wassili".'),
+
+                        TextInput::make('domain')
+                            ->label('Domain')
+                            ->visible(fn ($get) => $get('link_type') === Project::LINK_DOMAIN)
+                            ->required(fn ($get) => $get('link_type') === Project::LINK_DOMAIN)
+                            ->prefix('https://')
+                            ->placeholder('wassili.com')
+                            ->helperText('Full hostname. Pasting a full URL is fine — the scheme and path are stripped.'),
 
                         TextInput::make('repo')
                             ->url()

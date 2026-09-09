@@ -9,6 +9,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
+use App\Models\Project;
 use Filament\Tables\Table;
 
 class ProjectsTable
@@ -44,13 +45,13 @@ class ProjectsTable
                     })
                     ->sortable(),
 
-                TextColumn::make('host')
-                    ->label('Subdomain')
-                    ->formatStateUsing(fn ($state) => $state ? $state.'.'.config('portfolio.domain') : '—')
+                TextColumn::make('display_host')
+                    ->label('Address')
+                    ->state(fn ($record) => $record->display_host ?? '—')
+                    ->description(fn ($record) => Project::linkTypes()[$record->link_type] ?? null)
                     ->url(fn ($record) => $record->live_url)
                     ->openUrlInNewTab()
-                    ->color(fn ($record) => $record->host ? 'primary' : 'gray')
-                    ->searchable(),
+                    ->color(fn ($record) => $record->live_url ? 'primary' : 'gray'),
 
                 TextColumn::make('stack')
                     ->limit(30)
@@ -78,6 +79,8 @@ class ProjectsTable
             ])
             ->filters([
                 SelectFilter::make('category')->options(config('portfolio.categories')),
+
+                SelectFilter::make('link_type')->label('Address type')->options(Project::linkTypes()),
 
                 SelectFilter::make('status')->options([
                     'live'    => 'Live',

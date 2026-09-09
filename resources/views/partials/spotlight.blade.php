@@ -12,7 +12,8 @@
             @foreach ($spotlight as $project)
                 <x-spotlight-card
                     :name="$project->name"
-                    :host="$project->host"
+                    :host="$project->display_host"
+                    :live-url="$project->live_url"
                     :tagline="$project->tagline"
                     :problem="$project->problem"
                     :solution="$project->solution"

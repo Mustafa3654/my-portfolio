@@ -43,7 +43,7 @@
                     :summary="$project->summary"
                     :stack="$project->stack"
                     :status="$project->status"
-                    :host="$project->host"
+                    :live-url="$project->live_url"
                     :repo="$project->repo"
                     :feature="in_array($project->id, $featured, true)"
                 />

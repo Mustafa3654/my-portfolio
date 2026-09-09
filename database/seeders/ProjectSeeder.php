@@ -34,6 +34,14 @@ class ProjectSeeder extends Seeder
                 'stack'        => $row['stack'],
                 'status'       => $row['status'],
                 'host'         => $host,
+                'domain'       => $row['domain'] ?? null,
+                // A project either sits on a subdomain, owns a domain, or
+                // isn't deployed. Config may set either key.
+                'link_type'    => match (true) {
+                    ! empty($row['domain']) => Project::LINK_DOMAIN,
+                    (bool) $host            => Project::LINK_SUBDOMAIN,
+                    default                 => Project::LINK_NONE,
+                },
                 'repo'         => $row['repo'],
                 'sort_order'   => $index,
                 'is_published' => true,

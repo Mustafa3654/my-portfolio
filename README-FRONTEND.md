@@ -77,8 +77,22 @@ preview.html                          Standalone static render
    ```
 
 4. Set the root domain once in `config/portfolio.php` (`'domain' => 'mustafa.dev'`).
-   Every subdomain link across the board, the spotlight headers and the project
-   cards is derived from it.
+
+## Project addresses
+
+Each project chooses how it is reached, switchable per project in the admin panel:
+
+| `link_type` | Uses | Result |
+| --- | --- | --- |
+| `subdomain` | `host` + the root domain | `wassili` -> `wassili.mustafa.dev` |
+| `domain` | `domain` verbatim | `wassili.com` |
+| `none` | - | no live button |
+
+`Project::$display_host` and `$live_url` resolve this in one place, so the board,
+the cards and the spotlight headers can never disagree about an address. A pasted
+full URL is accepted for `domain` - the scheme and any path are stripped. The
+hostname is split at the first dot for display, which reads correctly either way
+(`wassili` + `.mustafa.dev`, or `wassili` + `.com`).
 
 ## Moving content to Filament
 
@@ -113,7 +127,8 @@ Status values the components understand: `live`, `in-use`, `beta`, `wip`, `priva
 
 ## Content to confirm
 
-- `domain` is a placeholder (`mustafa.dev`) — set your real root domain.
+- `domain` is a placeholder (`mustafa.dev`) — set your real root domain, or give
+  individual projects their own domain via `link_type`.
 - `identity.cv` is `null`; set a path to show the CV row in the contact card.
 - **AlphaDine** and **Feedback collector** have no repo descriptions on GitHub,
   so their copy is a best guess from the code and needs your review.

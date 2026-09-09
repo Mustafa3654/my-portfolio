@@ -86,7 +86,8 @@
                     <ul>
                         @foreach ($board as $row)
                             <x-board-row
-                                :host="$row->host"
+                                :host="$row->display_host"
+                                :url="$row->live_url"
                                 :summary="$row->board_summary ?? $row->summary"
                                 :status="$row->status"
                                 :last="$loop->last"
@@ -96,7 +97,7 @@
                 </div>
 
                 <p class="mt-3 px-1 font-mono text-[10px] leading-relaxed tracking-[0.1em] text-mute/60">
-                    Every project runs on its own subdomain. Click a host to open it.
+                    Each project has its own address. Click a host to open it.
                 </p>
             </div>
         </div>

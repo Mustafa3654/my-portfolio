@@ -5,13 +5,13 @@
     'summary',
     'stack',
     'status'  => 'live',
-    'host'    => null,
+    'liveUrl' => null,
     'repo'    => null,
     'feature' => false,
 ])
 
 @php
-    $live      = $host ? 'https://' . $host . '.' . config('portfolio.domain') : null;
+    $live      = $liveUrl;
     $isPending = in_array($status, ['beta', 'wip'], true);
 @endphp
 
@@ -52,7 +52,7 @@
     <p class="mt-5 font-mono text-[11px] text-mute/70">{{ $stack }}</p>
 
     <div class="mt-5 flex items-center gap-2 border-t border-line pt-5">
-        {{-- Live demo is the primary action: it points at the project's own subdomain. --}}
+        {{-- Live demo is the primary action: subdomain or own domain, resolved on the model. --}}
         @if ($live && $isPending)
             <a href="{{ $live }}"
                class="flex-1 rounded-[6px] border border-clay/40 bg-clay/10 px-3 py-2.5 text-center font-mono text-[11px] uppercase tracking-[0.13em] text-clay transition-colors hover:bg-clay hover:text-ink">

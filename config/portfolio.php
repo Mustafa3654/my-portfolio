@@ -29,7 +29,16 @@ return [
         'available' => true,
     ],
 
-    // Root domain every project subdomain hangs off. Change once, updates everywhere.
+    /*
+    | Root domain that project subdomains hang off. Change once, updates
+    | everywhere.
+    |
+    | Each project below picks its own address: give it a 'host' to sit on a
+    | subdomain of this root (host 'wassili' -> wassili.mustafa.dev), or a
+    | 'domain' to use a domain it owns outright ('wassili.com'). A project with
+    | neither is treated as not deployed and shows no live button. This is also
+    | switchable per project from the Filament admin panel.
+    */
     'domain' => 'mustafa.dev',
 
     'hero' => [
