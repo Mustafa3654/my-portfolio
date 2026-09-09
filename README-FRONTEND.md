@@ -136,6 +136,11 @@ Status values the components understand: `live`, `in-use`, `beta`, `wip`, `priva
 - `CyberpunkExpress` (private Unity game) is not in the grid — it doesn't fit the
   three categories. Add a fourth category if you want it shown.
 
+## Committing and running it
+
+See [PUSHING.md](PUSHING.md) for the everyday git loop and the one-time
+setup a fresh clone needs.
+
 ## Exposing it publicly (ngrok or any HTTPS proxy)
 
 ```bash
